@@ -25,7 +25,7 @@
 
 .content {
   grid-area: c;
-  background-color: blue;
+  background-color: rgb(37, 159, 207);
 }
 
 .content img {
