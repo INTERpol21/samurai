@@ -8,7 +8,7 @@ const Post = (props) => {
 
             <img src="https://coolsen.ru/wp-content/uploads/2021/06/138-8-1018x1024.jpg" alt="#" />
             {props.message}
-            <div><span>Like{props.like}</span></div>    
+            <div><span>Like</span>{props.like}</div>    
         </div>
         
         
