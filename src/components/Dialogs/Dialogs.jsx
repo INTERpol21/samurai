@@ -1,37 +1,46 @@
 import style from "./Dialogs.module.css"
-import {NavLink} from "react-router-dom";
+import DialogItem from "./DialogItem/DialogItem";
+import Message from "./Message/Message";
+import {dialogsElements, messagesElements} from "../../Store/Store";
 
 
-const DialogItem = (props) => {
-    let path = "/dialogs/" + props.id;
-    return (
-        <div className={style.item + " " + style.active}>
-            <NavLink to={path}>{props.name}</NavLink>
-        </div>
-    )
-}
-const Message = (props) => {
-    return (
-        <p className={style.message}>{props.message}</p>
-    )
-}
+
 
 
 const Dialogs = () => {
+
+    // let dialogs = [
+    //     {id: 1, name: "Антон"},
+    //     {id: 2, name: "Василий"},
+    //     {id: 3, name: "Екатерина"},
+    //     {id: 4, name: "Владимир"},
+    //     {id: 5, name: "Нюша"},
+    //     {id: 6, name: "Слава"},
+    // ]
+    //
+    // let messages = [
+    //     {id: 1, message: "Lorem ipsum dolor sit amet"},
+    //     {id: 2, message: "Magnis dis parturient montes nascetur ridiculus mus mauris vitae."},
+    //     {id: 3, message: "Ac placerat vestibulum lectus mauris ultrices eros in cursus"},
+    //     {id: 4, message: "Lorem ipsum dolor sit amet"},
+    //     {id: 5, message: "Magnis dis parturient montes nascetur ridiculus mus mauris vitae."},
+    //     {id: 6, message: "Lorem ipsum dolor sit amet"},
+    // ]
+    //
+    // let dialogsElements = dialogs
+    //     .map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>)
+    //
+    // let messagesElements = messages
+    //     .map(message => <Message message={message.message} id={message.id}/>)
+
+
     return (
         <div className={style.dialog__inner}>
             <div className={style.dialogs__items}>
-                <DialogItem name="Антон" id="1"/>
-                <DialogItem name="Василий" id="2"/>
-                <DialogItem name="Екатерина" id="3"/>
-                <DialogItem name="Владимир" id="4"/>
-                <DialogItem name="Нюша" id="5"/>
-                <DialogItem name="Слава" id="6"/>
+                {dialogsElements}
             </div>
             <div className={style.dialogs__messages}>
-                <Message message="Lorem ipsum dolor sit amet"/>
-                <Message message="Magnis dis parturient montes nascetur ridiculus mus mauris vitae. "/>
-                <Message message="Ac placerat vestibulum lectus mauris ultrices eros in cursus."/>
+                {messagesElements}
             </div>
         </div>
 
