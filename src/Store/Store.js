@@ -31,6 +31,7 @@ let state = {
     }
 
 }
+
 export let postsElements = state.profilePage.posts
     .map(post => <Post message={post.message} likesCount={post.likesCount} key={post.id}/>)
 
