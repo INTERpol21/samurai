@@ -2,7 +2,7 @@ import style from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 
-
+//либо вытягивать из props с помошью JS {state}
 const Dialogs = (props) => {
     let dialogsElements = props.state.dialogs
         .map(dialog => <DialogItem name={dialog.name} key={dialog.id}/>)
