@@ -1,6 +1,4 @@
-import DialogItem from "../components/Dialogs/DialogItem/DialogItem";
-import Message from "../components/Dialogs/Message/Message";
-import Post from "../components/Profile/MyPosts/Post/Post";
+import {rerenderEntireTree} from "../render";
 
 let state = {
     profilePage: {
@@ -32,12 +30,15 @@ let state = {
 
 }
 
-export let postsElements = state.profilePage.posts
-    .map(post => <Post message={post.message} likesCount={post.likesCount} key={post.id}/>)
+export let addPost = (postMessage) => {
+    let newPost = {
+        id: 7,
+        message: postMessage,
+        likesCount: 0
+    };
 
-export let dialogsElements = state.dialogsPage.dialogs
-    .map(dialog => <DialogItem name={dialog.name} key={dialog.id}/>)
+    state.profilePage.posts.push(newPost);
+    rerenderEntireTree(state);
+}
 
-export let messagesElements = state.dialogsPage.messages
-    .map(message => <Message message={message.message} key={message.id}/>)
-
+export default state;

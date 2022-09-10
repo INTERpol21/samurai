@@ -1,9 +1,14 @@
 import style from "./Dialogs.module.css"
-import {dialogsElements, messagesElements} from "../../Store/Store";
+import DialogItem from "./DialogItem/DialogItem";
+import Message from "./Message/Message";
 
 
+const Dialogs = (props) => {
+    let dialogsElements = props.state.dialogs
+        .map(dialog => <DialogItem name={dialog.name} key={dialog.id}/>)
 
-const Dialogs = () => {
+    let messagesElements = props.state.messages
+        .map(message => <Message message={message.message} key={message.id}/>)
 
 
     return (

@@ -10,12 +10,12 @@ const NavBar = () => {
     return (
 
         <nav className={style.nav}>
-            <div className={style.item}  >
+            <div className={style.item}>
                 <NavLink className={isActive} to="/profile"
                 >Profile</NavLink>
             </div>
             <div className={style.item}>
-                <NavLink  className={isActive}  to="/dialogs">Messages</NavLink>
+                <NavLink className={isActive} to="/dialogs">Messages</NavLink>
             </div>
             <div className={style.item}>
                 <NavLink className={isActive} to="/news">News</NavLink>
