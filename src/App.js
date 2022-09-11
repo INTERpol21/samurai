@@ -6,7 +6,7 @@ import Profile from "./components/Profile/Profile";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 
- const App = (props) => {
+const App = (props) => {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -15,11 +15,9 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path="/dialogs/*" element={<Dialogs state={props.state.dialogsPage}/>}/>
-                        <Route path="/profile"
-                               element={<Profile state={props.state.profilePage} addPost={props.addPost}/>}/>
+                        <Route path="/profile" element={<Profile state={props.state.profilePage} addPost={props.addPost}/>}/>
                         <Route path="/news" element={<Dialogs state={props.state.dialogsPage}/>}/>
-                        <Route path="/music"
-                               element={<Profile state={props.state.profilePage} addPost={props.addPost}/>}/>
+                        <Route path="/music" element={<Profile state={props.state.profilePage} addPost={props.addPost}/>}/>
                         <Route path="/settings" element={<Dialogs state={props.state.dialogsPage}/>}/>
                     </Routes>
                 </div>
