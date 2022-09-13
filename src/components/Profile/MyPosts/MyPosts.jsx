@@ -3,21 +3,22 @@ import style from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
 const MyPosts = (props) => {
-    let postsElements = props.posts.map((post,id) => <Post key={id} message={post.message} likesCount={post.likesCount}/>);
+    let postsElements = props.posts.map((post, id) => <Post key={id} message={post.message}
+                                                            likesCount={post.likesCount}/>);
 
     let newPostElement = createRef();
 
     let addPost = () => {
 
         //Фунция из BLL(redux)
-        props.addPost();
+        props.dispatch({type: 'ADD-POST'});
     }
     //Срабатывает всякий раз когда мы хотим изменить содержимое input(newPostElement)
-    let onPostChange=()=>{
+    let onPostChange = () => {
         let text = newPostElement.current.value;
-        //Фунция из BLL(redux)
-        props.updateNewPostText(text)
-    // console.log(text)
+        //Фунция из BLL(redux)newText:text так как в state.js action.newText
+        let action = ({type: 'UPDATE-NEW-POST-TEXT', newText: text});
+        props.dispatch(action);
     }
 
     return (<div className={style.blockPosts}>
@@ -25,7 +26,8 @@ const MyPosts = (props) => {
         <h2>My posts</h2>
         <div>
             <form>
-                <input onChange={onPostChange} value={props.newPostText} type="text" ref={newPostElement} placeholder={"Напиши текст"}/>
+                <input onChange={onPostChange} value={props.newPostText}
+                       type="text" ref={newPostElement} placeholder={"Напиши текст"}/>
                 <button type={"button"} onClick={addPost}>Add post</button>
             </form>
             <div className={style.posts}>

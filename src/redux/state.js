@@ -35,28 +35,50 @@ let store = {
     _callSubscriber() {
         console.log("State change")
     },
-    addPost() {
-
-        let newPost = {
-            id: 7, //Вводим начальную строку
-            message: this._state.profilePage.newPostText, likesCount: 0
-        };
-        this._state.profilePage.posts.push(newPost);
-        //Делаем пустую строку после ввода
-        this._state.profilePage.newPostText = "";
-
-        this._callSubscriber(this._state);
-    },
-    updateNewPostText(newText) {
-        this._state.profilePage.newPostText = newText;
-
-        this._callSubscriber(this._state);
-
-    },
+    // addPost() {
+    //
+    //     let newPost = {
+    //         id: 7, //Вводим начальную строку
+    //         message: this._state.profilePage.newPostText, likesCount: 0
+    //     };
+    //     this._state.profilePage.posts.push(newPost);
+    //     //Делаем пустую строку после ввода
+    //     this._state.profilePage.newPostText = "";
+    //
+    //     this._callSubscriber(this._state);
+    // },
+    // updateNewPostText(newText) {
+    //     this._state.profilePage.newPostText = newText;
+    //
+    //     this._callSubscriber(this._state);
+    //
+    // },
     subscribe(observer) {
 
         //принимаем в родительском мире let rerenderEntireTree и присваиваем observer
         this._callSubscriber = observer //наблюдатель = observer патерн!
+
+    },
+//action это объект, мы Отправляем какое то действие(dispatch)
+    dispatch(action) {
+
+        if (action.type === 'ADD-POST') {
+
+            let newPost = {
+                id: 7, //Вводим начальную строку
+                message: this._state.profilePage.newPostText, likesCount: 0
+            };
+            this._state.profilePage.posts.push(newPost);
+            //Делаем пустую строку после ввода
+            this._state.profilePage.newPostText = "";
+
+            this._callSubscriber(this._state);
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+
+            this._callSubscriber(this._state);
+
+        }
 
     }
 
