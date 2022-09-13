@@ -1,6 +1,8 @@
 import {createRef} from "react";
 import style from "./MyPosts.module.css";
 import Post from "./Post/Post";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/state";
+
 
 const MyPosts = (props) => {
     let postsElements = props.posts.map((post, id) => <Post key={id} message={post.message}
@@ -11,13 +13,13 @@ const MyPosts = (props) => {
     let addPost = () => {
 
         //Фунция из BLL(redux)
-        props.dispatch({type: 'ADD-POST'});
+        props.dispatch(addPostActionCreator());
     }
     //Срабатывает всякий раз когда мы хотим изменить содержимое input(newPostElement)
     let onPostChange = () => {
         let text = newPostElement.current.value;
         //Фунция из BLL(redux)newText:text так как в state.js action.newText
-        let action = ({type: 'UPDATE-NEW-POST-TEXT', newText: text});
+        let action = (updateNewPostTextActionCreator(text));
         props.dispatch(action);
     }
 

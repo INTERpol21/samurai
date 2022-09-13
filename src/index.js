@@ -6,7 +6,7 @@ import store from "./redux/state";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
- let rerenderEntireTree = (state) => {
+let rerenderEntireTree = (state) => {
     root.render(
         <React.StrictMode>
             <App state={state}

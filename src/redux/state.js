@@ -1,6 +1,9 @@
+//action creator, action type
+const ADD_POST = "ADD-POST";
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 //Переписал под ООП Инкапсуляция
 let store = {
-    //По договорености _делает метод приватным
+    //По договорености _ делает метод приватным
     _state: {
         profilePage: {
             posts: [{id: 1, message: "Hi, how are you?", likesCount: 12}, {
@@ -62,7 +65,7 @@ let store = {
 //action это объект, мы Отправляем какое то действие(dispatch)
     dispatch(action) {
 
-        if (action.type === 'ADD-POST') {
+        if (action.type === ADD_POST) {
 
             let newPost = {
                 id: 7, //Вводим начальную строку
@@ -73,16 +76,22 @@ let store = {
             this._state.profilePage.newPostText = "";
 
             this._callSubscriber(this._state);
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._state.profilePage.newPostText = action.newText;
-
             this._callSubscriber(this._state);
-
         }
 
     }
 
 }
+
+export const addPostActionCreator = () => ({
+    type: ADD_POST
+})
+
+export const updateNewPostTextActionCreator = (text) => ({
+    type: UPDATE_NEW_POST_TEXT, newText: text
+})
 
 
 // //вызываем замыкание

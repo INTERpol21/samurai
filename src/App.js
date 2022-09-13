@@ -27,7 +27,6 @@ const App = (props) => {
                 </div>
             </div>
         </BrowserRouter>
-
     );
 };
 
