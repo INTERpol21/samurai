@@ -9,7 +9,7 @@ const ProfileInfo = () => {
             />
         </div>
         <div className={style.title}>
-            ava + description
+            P.S Altai
         </div>
     </div>)
 }

@@ -1,15 +1,36 @@
 import style from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
+import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/Reducer/DialogsReducer";
 
 //либо вытягивать из props с помошью JS {state}
 const Dialogs = (props) => {
-    let dialogsElements = props.state.dialogs
+
+
+    let state = props.store.getState().dialogsPage;
+
+
+    let dialogsElements = state.dialogs
         .map(dialog => <DialogItem name={dialog.name} key={dialog.id}/>)
 
-    let messagesElements = props.state.messages
+    let messagesElements = state.messages
         .map(message => <Message message={message.message} key={message.id}/>)
 
+    let newMessageBody = state.newMessageBody
+
+    //STATE
+    let onSendMessageClick = () => {
+
+        props.store.dispatch(sendMessageCreator())
+    }
+
+    let onNewMessageChange = (event) => {
+
+        //target это и есть input
+        let body = event.target.value;
+        props.store.dispatch(updateNewMessageBodyCreator(body))
+    }
+    debugger;
 
     return (
         <div className={style.dialog__inner}>
@@ -17,7 +38,14 @@ const Dialogs = (props) => {
                 {dialogsElements}
             </div>
             <div className={style.dialogs__messages}>
-                {messagesElements}
+                <div>{messagesElements}</div>
+                <div>
+                    <form>
+                        <input type="text" value={newMessageBody} placeholder={"Напиши текст"}
+                               onChange={onNewMessageChange}/>
+                        <button type={"button"} onClick={onSendMessageClick}>Message</button>
+                    </form>
+                </div>
             </div>
         </div>
 

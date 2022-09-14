@@ -1,6 +1,11 @@
+import profileReducer from "./Reducer/ProfileReducer";
+import dialogsReducer from "./Reducer/DialogsReducer";
+import sidBarReducer from "./Reducer/SidBarReducer";
 //action creator, action type
-const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+// const ADD_POST = "ADD-POST";
+// const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+// const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
+// const SEND_MESSAGE = "SEND-MESSAGE";
 //Переписал под ООП Инкапсуляция
 let store = {
     //По договорености _ делает метод приватным
@@ -26,8 +31,10 @@ let store = {
                 id: 4, message: "Lorem ipsum dolor sit amet"
             }, {id: 5, message: "Magnis dis parturient montes nascetur ridiculus mus mauris vitae."}, {
                 id: 6, message: "Lorem ipsum dolor sit amet"
-            },]
-        }
+            },],
+            newMessageBody: ""
+        },
+        sideBar: {},
 
     },
     getState() {
@@ -62,37 +69,58 @@ let store = {
         this._callSubscriber = observer //наблюдатель = observer патерн!
 
     },
+    //Весь state меняется только через dispatch
 //action это объект, мы Отправляем какое то действие(dispatch)
     dispatch(action) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sideBar = sidBarReducer(this._state.sideBar, action)
+        this._callSubscriber(this._state)
 
-        if (action.type === ADD_POST) {
-
-            let newPost = {
-                id: 7, //Вводим начальную строку
-                message: this._state.profilePage.newPostText, likesCount: 0
-            };
-            this._state.profilePage.posts.push(newPost);
-            //Делаем пустую строку после ввода
-            this._state.profilePage.newPostText = "";
-
-            this._callSubscriber(this._state);
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
-        }
+        // if (action.type === ADD_POST) {
+        //     let newPost = {
+        //         id: 7, //Вводим начальную строку
+        //         message: this._state.profilePage.newPostText, likesCount: 0
+        //     };
+        //     this._state.profilePage.posts.push(newPost);
+        //     //Делаем пустую строку после ввода
+        //     this._state.profilePage.newPostText = "";
+        //     this._callSubscriber(this._state);
+        // } else if (action.type === UPDATE_NEW_POST_TEXT) {
+        //     this._state.profilePage.newPostText = action.newText;
+        //     this._callSubscriber(this._state);
+        //
+        //
+        // } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+        //     this._state.dialogsPage.newMessageBody = action.body;
+        //     this._callSubscriber(this._state);
+        // } else if (action.type === SEND_MESSAGE) {
+        //     let body = {id: 7, message: this._state.dialogsPage.newMessageBody}
+        //     this._state.dialogsPage.newMessageBody = "";
+        //     this._state.dialogsPage.messages.push(body)
+        //     this._callSubscriber(this._state);
+        // }
 
     }
 
 }
 
-export const addPostActionCreator = () => ({
-    type: ADD_POST
-})
-
-export const updateNewPostTextActionCreator = (text) => ({
-    type: UPDATE_NEW_POST_TEXT, newText: text
-})
-
+// export const addPostActionCreator = () => ({
+//     type: ADD_POST
+// })
+//
+// export const updateNewPostTextActionCreator = (text) => ({
+//     type: UPDATE_NEW_POST_TEXT, newText: text
+// })
+//
+//
+// export const  sendMessageCreator= () => ({
+//     type: SEND_MESSAGE
+// })
+//
+// export const updateNewMessageBodyCreator = (body) => ({
+//     type: UPDATE_NEW_MESSAGE_BODY, body: body
+// })
 
 // //вызываем замыкание
 // let rerenderEntireTree = () => {
