@@ -1,7 +1,6 @@
 import {createRef} from "react";
 import style from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/Reducer/ProfileReducer";
 
 
 const MyPosts = (props) => {
@@ -10,17 +9,19 @@ const MyPosts = (props) => {
 
     let newPostElement = createRef();
 
-    let addPost = () => {
-
+    let onAddPost = () => {
+        props.addPost();
         //Фунция из BLL(redux)
-        props.dispatch(addPostActionCreator());
+        // props.dispatch(addPostActionCreator());
     }
     //Срабатывает всякий раз когда мы хотим изменить содержимое input(newPostElement)
     let onPostChange = () => {
         let text = newPostElement.current.value;
         //Фунция из BLL(redux)newText:text так как в store.js action.newText
-        let action = (updateNewPostTextActionCreator(text));
-        props.dispatch(action);
+        //Перекидываем весь функционал и излишество в контейнер
+        // let action = (updateNewPostTextActionCreator(text));
+        // props.dispatch(action);
+        props.updateNewPostText(text)
     }
 
     return (<div className={style.blockPosts}>
@@ -30,7 +31,7 @@ const MyPosts = (props) => {
             <form>
                 <input onChange={onPostChange} value={props.newPostText}
                        type="text" ref={newPostElement} placeholder={"Напиши текст"}/>
-                <button type={"button"} onClick={addPost}>Add post</button>
+                <button type={"button"} onClick={onAddPost}>Add post</button>
             </form>
             <div className={style.posts}>
                 {postsElements}

@@ -1,13 +1,12 @@
 import style from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/Reducer/DialogsReducer";
 
 //либо вытягивать из props с помошью JS {state}
 const Dialogs = (props) => {
 
 
-    let state = props.store.getState().dialogsPage;
+    let state = props.dialogsPage;
 
 
     let dialogsElements = state.dialogs
@@ -21,14 +20,15 @@ const Dialogs = (props) => {
     //STATE
     let onSendMessageClick = () => {
 
-        props.store.dispatch(sendMessageCreator())
+        props.sandMessage()
     }
 
     let onNewMessageChange = (event) => {
 
         //target это и есть input
         let body = event.target.value;
-        props.store.dispatch(updateNewMessageBodyCreator(body))
+        props.updateNewMessageBody(body)
+
     }
 
 
