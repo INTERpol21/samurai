@@ -18,7 +18,7 @@ const MyPosts = (props) => {
     //Срабатывает всякий раз когда мы хотим изменить содержимое input(newPostElement)
     let onPostChange = () => {
         let text = newPostElement.current.value;
-        //Фунция из BLL(redux)newText:text так как в state.js action.newText
+        //Фунция из BLL(redux)newText:text так как в store.js action.newText
         let action = (updateNewPostTextActionCreator(text));
         props.dispatch(action);
     }

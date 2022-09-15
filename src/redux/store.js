@@ -1,6 +1,6 @@
 import profileReducer from "./Reducer/ProfileReducer";
 import dialogsReducer from "./Reducer/DialogsReducer";
-import sidBarReducer from "./Reducer/SidBarReducer";
+// import sidBarReducer from "./Reducer/SidBarReducer";
 //action creator, action type
 // const ADD_POST = "ADD-POST";
 // const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
@@ -74,7 +74,7 @@ let store = {
     dispatch(action) {
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        this._state.sideBar = sidBarReducer(this._state.sideBar, action)
+        // this._state.sideBar = sidBarReducer(this._state.sideBar, action)
         this._callSubscriber(this._state)
 
         // if (action.type === ADD_POST) {

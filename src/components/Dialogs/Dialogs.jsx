@@ -30,7 +30,7 @@ const Dialogs = (props) => {
         let body = event.target.value;
         props.store.dispatch(updateNewMessageBodyCreator(body))
     }
-    debugger;
+
 
     return (
         <div className={style.dialog__inner}>
