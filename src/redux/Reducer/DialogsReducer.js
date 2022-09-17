@@ -22,18 +22,47 @@ let initialState = {
 
 const dialogsReducer = (state = initialState, action) => {
 
-    if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-        state.newMessageBody = action.body;
+//
+//     if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+//
+//         stateCopy.newMessageBody = action.body;
+//         return stateCopy
+//
+//     } else if (action.type === SEND_MESSAGE) {
+//         let body = {id: 7, message: stateCopy.newMessageBody}
+//         stateCopy.newMessageBody = "";
+//         stateCopy.messages.push(body)
+//
+//     }
+//     return stateCopy;
+// }
+    switch (action.type) {
 
-
-    } else if (action.type === SEND_MESSAGE) {
-        let body = {id: 7, message: state.newMessageBody}
-        state.newMessageBody = "";
-        state.messages.push(body)
-
+        case UPDATE_NEW_MESSAGE_BODY: {
+            return {
+                ...state,
+                newMessageBody: action.body
+            }
+        }
+        case SEND_MESSAGE: {
+//             let newMessage = {id: 7, message: state.newMessageBody};
+// //Копия и пуш объекта
+//             stateCopy.messages = [...state.messages]
+//             stateCopy.messages.push(newMessage)
+//             //Зануление
+//             stateCopy.newMessageBody = "";
+            let body = state.newMessageBody
+            return {
+                ...state,
+                newMessageBody: "",
+                messages: [...state.messages, {id: 7, message: body}]
+            }
+        }
+        default:
+            return state;
     }
-    return state;
 }
+
 
 export const sendMessageCreator = () => ({
     type: SEND_MESSAGE

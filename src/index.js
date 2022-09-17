@@ -8,19 +8,17 @@ import {Provider} from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let rerenderEntireTree = (state) => {
-    root.render(
-        <React.StrictMode>
-            <Provider store={store}>
-                <App/>
-            </Provider>
-        </React.StrictMode>
-    )
-}
+// let rerenderEntireTree = (state) => {
+root.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>
+)
 
-rerenderEntireTree(store.getState());
-//Замыкание из store.js, вызываем только при rerenderEntireTree(state);
-store.subscribe(() => {
-    let state = store.getState()
-    rerenderEntireTree(state)
-});
+
+// rerenderEntireTree(store.getState());
+// //Замыкание из store.js, вызываем только при rerenderEntireTree(state);
+// store.subscribe(() => {
+//     let state = store.getState()
+//     rerenderEntireTree(state)
+// });

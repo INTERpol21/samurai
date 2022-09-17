@@ -24,7 +24,6 @@ const Dialogs = (props) => {
     }
 
     let onNewMessageChange = (event) => {
-
         //target это и есть input
         let body = event.target.value;
         props.updateNewMessageBody(body)

@@ -50,7 +50,6 @@ const mapStateToProps = (state) => {
         posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText
     }
-
 }
 
 
