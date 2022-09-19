@@ -86,51 +86,78 @@ import React from "react";
 
 class Users extends React.Component {
 
-    constructor(props) {
-        super(props);
 
+    componentDidMount() {
         //Запрос на сервер, получение данных
-        axios.get("https://social-network.samuraijs.com/api/1.0/users")
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage} &count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
+                this.props.setTotalUsersCount(response.data.totalCount)
             })
-
-
     }
 
 
+    onPageChange = (pageNumber) => {
+        this.props.setCurrentPage(pageNumber)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber} &count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+            })
+    }
+
     render() {
-        return (<div>
 
 
-            {this.props.users.map(user =>
-                <div key={user.id}>
-                                 <span>
-                        <div>
-                             <img className={styles.userPhoto}
-                                  src={user.photos.small != null ? user.photos.small : Avatar} alt=""/>
-                        </div>
-                                     <div>
-                                        {user.followed ? <button onClick={() => {
-                                            this.props.unfollow(user.id)
-                                        }}>Unfollow</button> : <button onClick={() => {
-                                            this.props.follow(user.id)
-                                        }}>Follow</button>}
-                                    </div>
-                                 </span>
+        let pagesCount = Math.ceil(this.props.totalUserCount / this.props.pageSize)
 
-                    <span>
-                                         <div>{user.name}</div>
-                                       <div>{user.status}</div>
-                                    </span>
+        let pages = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+        let curP = this.props.currentPage;
+        let curPF = ((curP - 5) < 0) ? 0 : curP - 5;
+        let curPL = curP + 5;
+        let slicedPages = pages.slice(curPF, curPL);
 
-                    <span>
-                                     <div>{"user.location.country"}</div>
-                                     <div>{"user.location.city"}</div>
-                                    </span>
 
-                </div>)}
-        </div>)
+        return (
+            <div>
+                <div className={styles.container}> {slicedPages.map((page, id) => {
+                    return (
+                        <span key={id}
+                              className={this.props.currentPage === page ? styles.selectedPage : styles.noSelectedPage}
+                              onClick={() => {
+                                  this.onPageChange(page)
+                              }}>{page}</span>)
+                })}
+                </div>
+
+
+                {
+                    this.props.users.map(user =>
+                        <div key={user.id}>
+                            <div>
+                                <img className={styles.userPhoto}
+                                     src={user.photos.small != null ? user.photos.small : Avatar} alt=""/>
+                            </div>
+                            <div>
+                                {user.followed ? <button onClick={() => {
+                                    this.props.unfollow(user.id)
+                                }}>Unfollow</button> : <button onClick={() => {
+                                    this.props.follow(user.id)
+                                }}>Follow</button>}
+                            </div>
+
+                            <div>
+                                <div>{user.name}</div>
+                                <div>{user.status}</div>
+                                <div>{"user.location.country"}</div>
+                                <div>{"user.location.city"}</div>
+                            </div>
+                        </div>)
+                }
+            </div>
+        )
     }
 }
 

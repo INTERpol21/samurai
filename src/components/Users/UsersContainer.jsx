@@ -1,11 +1,21 @@
 import Users from "./Users";
 import {connect} from "react-redux";
-import {followAC, setUsersAC, unfollowAC} from "../../redux/Reducer/UsersReducer";
+import {
+    followAC,
+    setCurrentPageAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    unfollowAC
+} from "../../redux/Reducer/UsersReducer";
 
 
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users
+        //информация приходит через props из initialState=>UsersReducer.js=>state.usersPage
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalUserCount: state.usersPage.totalUserCount,
+        currentPage: state.usersPage.currentPage
     }
 }
 
@@ -21,11 +31,17 @@ let mapDispatchToProps = (dispatch) => {
         },
         setUsers: (users) => {
             dispatch(setUsersAC(users))
+        },
+        setCurrentPage: (pageNumber) => {
+            dispatch(setCurrentPageAC(pageNumber))
+        },
+        setTotalUsersCount: (totalCount) => {
+            dispatch(setTotalUsersCountAC(totalCount))
         }
     }
 }
 
-
+//Все пропсы приходят от connect по 2 функциям в файл Users
 const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
 
 export default UsersContainer
