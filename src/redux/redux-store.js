@@ -4,6 +4,7 @@ import DialogsReducer from "./Reducer/DialogsReducer";
 import ProfileReducer from "./Reducer/ProfileReducer";
 import SidBarReducer from "./Reducer/SidBarReducer";
 import UsersReducer from "./Reducer/UsersReducer";
+import authReducer from "./Reducer/AuthReducer";
 
 
 //Обратите внимание, что это работает только для одного уровня вложенности.
@@ -14,6 +15,7 @@ let store = configureStore({
         profilePage: ProfileReducer,
         sidBarPage: SidBarReducer,
         usersPage: UsersReducer,
+        auth: authReducer,
 
     }
 })
