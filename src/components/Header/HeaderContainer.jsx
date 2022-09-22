@@ -10,10 +10,7 @@ class HeaderContainer extends React.Component {
     componentDidMount() {
 
         axios.defaults.withCredentials = true;
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentialsL: true
-        })
-
+        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`)
             .then(response => {
                 if (response.data.resultCode === 0) {
                     //Деструкуризация. Быть острожным с передачей и очередью setAuthUserData
