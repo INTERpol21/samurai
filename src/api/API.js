@@ -1,4 +1,5 @@
 import axios from "axios";
+/*withCredentials: true Параметр настроек, разрешение кукис, API-KEY ключ взятые с сервера, в настройках профиля*/
 
 const instance = axios.create({
     withCredentials: true,
@@ -12,12 +13,12 @@ export const usersAPI = {
         return instance.get(`users?page=${currentPage} &count=${pageSize}`)
             .then(response => response.data)
     },
-    unFollowedButton(user) {
-        return instance.delete(`follow/${user.id}`)
+    unfollow(userId) {
+        return instance.delete(`follow/${userId}`)
             .then(response => response.data)
     },
-    followedButton(user) {
-        return instance.post(`follow/${user.id}`)
+    follow(userId) {
+        return instance.post(`follow/${userId}`)
             .then(response => response.data)
     }
 }

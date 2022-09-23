@@ -2,16 +2,7 @@ import {connect} from "react-redux";
 import React from "react";
 import Users from "./Users";
 import Preloader from "../UX/Preloader/Preloader";
-import {
-    follow,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers,
-    toggleFollowingProgress,
-    toggleIsFetching,
-    unfollow
-} from "../../redux/Reducer/UsersReducer";
-import {usersAPI} from "../../api/API";
+import {follow, getUsers, setCurrentPage, toggleFollowingProgress, unfollow} from "../../redux/Reducer/UsersReducer";
 
 
 // let Users = (props) => {
@@ -96,29 +87,53 @@ import {usersAPI} from "../../api/API";
 
 class UsersContainer extends React.Component {
 
+//     Для componentDidMount
+//
+//     useEffect(() => {
+//     // Your code here
+// }, []);
+// Для componentDidUpdate
+//
+// useEffect(() => {
+//     // Your code here
+// }, [yourDependency]);
+// Для componentWillUnmount
+//
+// useEffect(() => {
+//     // componentWillUnmount
+//     return () => {
+//         // Your code here
+//     }
+// }, [yourDependency]);
 
+
+    ///getUsers вызывает getUsersThunkCreator из connect
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(data => {
-                this.props.toggleIsFetching(false)
-                this.props.setUsers(data.items)
-                this.props.setTotalUsersCount(data.totalCount)
-            })
+        //с помошью CALLBACK вызываются currentPage и pageSize и передаются сюда !!!!
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        // this.props.toggleIsFetching(true)
+        //
+        // usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+        //     .then(data => {
+        //         this.props.toggleIsFetching(false)
+        //         this.props.setUsers(data.items)
+        //         this.props.setTotalUsersCount(data.totalCount)
+        //     })
     }
 
     onPageChanged = (pageNumber) => {
-        //Когда получаем запрос
-        this.props.setCurrentPage(pageNumber)
-        this.props.toggleIsFetching(true)
 
-        usersAPI.getUsers(pageNumber, this.props.pageSize)
-            .then(data => {
-                // Когда получаем ответ
-                this.props.toggleIsFetching(false)
-                this.props.setUsers(data.items)
-            })
+        this.props.getUsers(pageNumber, this.props.pageSize)
+        //Когда получаем запрос
+        // this.props.setCurrentPage(pageNumber)
+        // this.props.toggleIsFetching(true)
+        //Вынесено в API
+        // usersAPI.getUsers(pageNumber, this.props.pageSize)
+        //     .then(data => {
+        //         // Когда получаем ответ
+        //         this.props.toggleIsFetching(false)
+        //         this.props.setUsers(data.items)
+        //     })
     }
 
     render() {
@@ -147,7 +162,7 @@ let mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
+
         followingInProgress: state.usersPage.followingInProgress
     }
 }
@@ -181,8 +196,9 @@ let mapStateToProps = (state) => {
 //Все пропсы приходят от connect по 2 функциям в файл Users
 export default connect(mapStateToProps,
     {
-        follow, unfollow, setUsers,
-        setCurrentPage, setTotalUsersCount, toggleIsFetching,
-        toggleFollowingProgress
+        // setTotalUsersCount, toggleIsFetching,setUsers,
+        follow, unfollow,
+        setCurrentPage,
+        toggleFollowingProgress, getUsers
     })(UsersContainer)
-
+//getUsers приходит колбеком из UserReducer
