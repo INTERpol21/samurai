@@ -1,6 +1,7 @@
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/Reducer/DialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 //либо вытягивать из props с помошью JS {state}
@@ -49,6 +50,7 @@ import {connect} from "react-redux";
 let mapStateToProps = (state) => {
     return {
         dialogsPage: state.dialogsPage
+
     }
 }
 //Колбеки которые будем отправлять в призентационую компоненту
@@ -62,6 +64,10 @@ let mapDispatchToProps = (dispatch) => {
         }
     }
 }
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+//HOC
+let AuthRedirectComponent = withAuthRedirect(Dialogs)
+
+
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
 
 export default DialogsContainer;

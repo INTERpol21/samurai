@@ -3,6 +3,7 @@ import React from "react";
 import Users from "./Users";
 import Preloader from "../UX/Preloader/Preloader";
 import {follow, getUsers, setCurrentPage, toggleFollowingProgress, unfollow} from "../../redux/Reducer/UsersReducer";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 // let Users = (props) => {
@@ -109,6 +110,7 @@ class UsersContainer extends React.Component {
 
     ///getUsers вызывает getUsersThunkCreator из connect
     componentDidMount() {
+        //Санки
         //с помошью CALLBACK вызываются currentPage и pageSize и передаются сюда !!!!
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
         // this.props.toggleIsFetching(true)
@@ -122,7 +124,7 @@ class UsersContainer extends React.Component {
     }
 
     onPageChanged = (pageNumber) => {
-
+        //Санки
         this.props.getUsers(pageNumber, this.props.pageSize)
         //Когда получаем запрос
         // this.props.setCurrentPage(pageNumber)
@@ -162,7 +164,6 @@ let mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-
         followingInProgress: state.usersPage.followingInProgress
     }
 }
@@ -192,13 +193,14 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-
+//HOC
+//Внутреним HOC connect получаем один контейнер,  внешнем withAuthRedirect еще раз оборачиваем
 //Все пропсы приходят от connect по 2 функциям в файл Users
-export default connect(mapStateToProps,
+export default withAuthRedirect(connect(mapStateToProps,
     {
         // setTotalUsersCount, toggleIsFetching,setUsers,
         follow, unfollow,
         setCurrentPage,
         toggleFollowingProgress, getUsers
-    })(UsersContainer)
+    })(UsersContainer))
 //getUsers приходит колбеком из UserReducer

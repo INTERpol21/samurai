@@ -1,9 +1,11 @@
 //action creator, action type
-
+import {profileAPI} from "../../api/API";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = "SET_USER_PROFILE"
+
+
 let initialState = {
     posts: [
         {id: 1, message: "Hi, how are you?", likesCount: 12},
@@ -78,6 +80,14 @@ export const updateNewPostTextActionCreator = (text) => ({
 export const setUserProfile = (profile) => ({
     type: SET_USER_PROFILE, profile
 })
+//Санки
+export const getUserProfile = (userId) => (dispatch) => {
+    profileAPI.getProfile(userId)
+        .then(data => {
+            dispatch(setUserProfile(data))
+
+        })
+}
 
 
 export default profileReducer;
