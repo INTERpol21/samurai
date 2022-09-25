@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {getUserProfile} from "../../redux/Reducer/ProfileReducer";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
 class ProfileContainer extends React.Component {
@@ -43,13 +44,16 @@ function withRouter(Component) {
     return ComponentWithRouterProp;
 }
 
-//HOC
-let AuthRedirectComponent = withAuthRedirect(ProfileContainer)
-
 
 //() скобки нужны что бы функция восспринималась как объект со свойством
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
 })
 
-export default connect(mapStateToProps, {getUserProfile})(withRouter(AuthRedirectComponent));
+
+//HOC
+export default compose(
+    connect(mapStateToProps, {getUserProfile}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer);

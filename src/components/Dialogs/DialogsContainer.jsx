@@ -2,6 +2,7 @@ import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/Reduc
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
 //либо вытягивать из props с помошью JS {state}
@@ -64,10 +65,19 @@ let mapDispatchToProps = (dispatch) => {
         }
     }
 }
-//HOC
-let AuthRedirectComponent = withAuthRedirect(Dialogs)
+//Конвейр вызовов с низу вверх
+// compose(
+//     connect(mapStateToProps, mapDispatchToProps),
+//     withAuthRedirect
+// )(Dialogs)
+//
+// //HOC
+// let AuthRedirectComponent = withAuthRedirect(Dialogs)
+//
+//
+// const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
 
-
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
-
-export default DialogsContainer;
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs);

@@ -4,6 +4,7 @@ import Users from "./Users";
 import Preloader from "../UX/Preloader/Preloader";
 import {follow, getUsers, setCurrentPage, toggleFollowingProgress, unfollow} from "../../redux/Reducer/UsersReducer";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
 // let Users = (props) => {
@@ -196,11 +197,21 @@ let mapStateToProps = (state) => {
 //HOC
 //Внутреним HOC connect получаем один контейнер,  внешнем withAuthRedirect еще раз оборачиваем
 //Все пропсы приходят от connect по 2 функциям в файл Users
-export default withAuthRedirect(connect(mapStateToProps,
-    {
-        // setTotalUsersCount, toggleIsFetching,setUsers,
-        follow, unfollow,
-        setCurrentPage,
-        toggleFollowingProgress, getUsers
-    })(UsersContainer))
+// export default withAuthRedirect(connect(mapStateToProps,
+//     {
+//         // setTotalUsersCount, toggleIsFetching,setUsers,
+//         follow, unfollow,
+//         setCurrentPage,
+//         toggleFollowingProgress, getUsers
+//     })(UsersContainer))
 //getUsers приходит колбеком из UserReducer
+
+export default compose(
+    withAuthRedirect,
+    connect(
+        mapStateToProps, {
+            follow, unfollow,
+            setCurrentPage,
+            toggleFollowingProgress, getUsers
+        }))
+(UsersContainer)
