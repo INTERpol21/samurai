@@ -55,11 +55,11 @@ const Dialogs = (props) => {
                             <Field
                                 name={'newMessageBody'}
                                 as={'textarea'}
-                                placeholder={'enter text'}
+                                placeholder={'Введите текст'}
                             />
                         </div>
 
-                        <button type={'submit'}>Send2</button>
+                        <button type={'submit'}>Send</button>
                     </Form>
                 )}
             </Formik>
