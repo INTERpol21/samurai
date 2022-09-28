@@ -1,6 +1,7 @@
 import style from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
+import {Field, Form, Formik} from "formik";
 
 
 //либо вытягивать из props с помошью JS {state}
@@ -16,19 +17,53 @@ const Dialogs = (props) => {
     let messagesElements = state.messages
         .map((message, id) => <Message message={message.message} key={id}/>)
 
-    let newMessageBody = state.newMessageBody
+    // let newMessageBody = state.newMessageBody
+    //
+    // //STATE
+    // let onSendMessageClick = () => {
+    //
+    //     props.sandMessage()
+    // }
+    //
+    // let onNewMessageChange = (event) => {
+    //     //target это и есть input
+    //     let body = event.target.value;
+    //     props.updateNewMessageBody(body)
+    //
+    // }
 
-    //STATE
-    let onSendMessageClick = () => {
+    const AddMassageForm = (props) => {
 
-        props.sandMessage()
-    }
+        let addNewMessage = (values) => {
+            props.sendMessage(values);
+        }
 
-    let onNewMessageChange = (event) => {
-        //target это и есть input
-        let body = event.target.value;
-        props.updateNewMessageBody(body)
+        return (
+            <Formik
+                initialValues={{
+                    newMessageBody: ""
+                }}
+                onSubmit={(values, {resetForm}) => {
+                    addNewMessage(values.newMessageBody);
+                    resetForm({values: ''});
+                }
+                }
+            >
+                {() => (
+                    <Form>
+                        <div>
+                            <Field
+                                name={'newMessageBody'}
+                                as={'textarea'}
+                                placeholder={'enter text'}
+                            />
+                        </div>
 
+                        <button type={'submit'}>Send2</button>
+                    </Form>
+                )}
+            </Formik>
+        )
     }
 
 
@@ -40,11 +75,12 @@ const Dialogs = (props) => {
             <div className={style.dialogs__messages}>
                 <div>{messagesElements}</div>
                 <div>
-                    <form>
-                        <input type="text" value={newMessageBody} placeholder={"Напиши текст"}
-                               onChange={onNewMessageChange}/>
-                        <button type={"button"} onClick={onSendMessageClick}>Message</button>
-                    </form>
+                    <AddMassageForm sendMessage={props.sendMessage}/>
+                    {/*<form>*/}
+                    {/*    <input type="text" value={newMessageBody} placeholder={"Напиши текст"}*/}
+                    {/*           onChange={onNewMessageChange}/>*/}
+                    {/*    <button type={"button"} onClick={onSendMessageClick}>Message</button>*/}
+                    {/*</form>*/}
                 </div>
             </div>
         </div>

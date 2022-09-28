@@ -17,7 +17,7 @@ let initialState = {
         {id: 5, message: "Magnis dis parturient montes nascetur ridiculus mus mauris vitae."},
         {id: 6, message: "Lorem ipsum dolor sit amet"},
     ],
-    newMessageBody: ""
+    newMessageText: ""
 }
 
 const dialogsReducer = (state = initialState, action) => {
@@ -41,7 +41,7 @@ const dialogsReducer = (state = initialState, action) => {
         case UPDATE_NEW_MESSAGE_BODY: {
             return {
                 ...state,
-                newMessageBody: action.body
+                newMessageText: action.body
             }
         }
         case SEND_MESSAGE: {
@@ -51,11 +51,12 @@ const dialogsReducer = (state = initialState, action) => {
 //             stateCopy.messages.push(newMessage)
 //             //Зануление
 //             stateCopy.newMessageBody = "";
-            let body = state.newMessageBody
+//             let body = state.newMessageBody
+            let body = action.newMessageText
             return {
                 ...state,
-                newMessageBody: "",
-                messages: [...state.messages, {id: 7, message: body}]
+                messages: [...state.messages, {id: 7, message: body}],
+                newMessageText: "",
             }
         }
         default:
@@ -64,9 +65,8 @@ const dialogsReducer = (state = initialState, action) => {
 }
 
 
-export const sendMessageCreator = () => ({
-    type: SEND_MESSAGE
-})
+export const sendMessageCreator = (newMessageText) => ({type: SEND_MESSAGE, newMessageText})
+
 
 export const updateNewMessageBodyCreator = (body) => ({
     type: UPDATE_NEW_MESSAGE_BODY, body: body

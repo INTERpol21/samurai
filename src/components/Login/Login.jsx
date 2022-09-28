@@ -6,7 +6,7 @@ import * as Yup from "yup";
 const validateLoginForm = values => {
     const errors = {};
     if (!values.email) {
-        errors.email = 'Required 1';
+        errors.email = 'Введите email';
     } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
     ) {
@@ -20,7 +20,7 @@ const validationSchemaLoginForm = Yup.object().shape({
     password: Yup.string()
         .min(2, "Must be longer than 2 characters")
         .max(5, "Must be shorter than 5 characters")
-        .required("Required 2")
+        .required("Введите пароль")
 });
 
 

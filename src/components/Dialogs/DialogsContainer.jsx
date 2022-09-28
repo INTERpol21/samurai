@@ -57,12 +57,14 @@ let mapStateToProps = (state) => {
 //Колбеки которые будем отправлять в призентационую компоненту
 let mapDispatchToProps = (dispatch) => {
     return {
-        sandMessage: () => {
-            dispatch(sendMessageCreator())
+        sendMessage: (newMessageText) => {
+
+            dispatch(sendMessageCreator(newMessageText))
         },
         updateNewMessageBody: (body) => {
             dispatch(updateNewMessageBodyCreator(body))
-        }
+        },
+
     }
 }
 //Конвейр вызовов с низу вверх
