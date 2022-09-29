@@ -28,16 +28,18 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case ADD_POST: {
+
             // let newPost = {
             //     id: 7, message: state.newPostText, likesCount: 0
             // };
             //Копия и пуш объекта
+            let body = action.newPostText
             return {
                 ...state,
-                newPostText: "",
                 posts: [...state.posts, {
-                    id: 7, message: state.newPostText, likesCount: 0
-                }]
+                    id: 7, message: body, likesCount: 0
+                }],
+                newPostText: "",
             }
             // stateCopy.posts = [...state.posts, ]
             // stateCopy.posts.push(newPost);
@@ -76,8 +78,8 @@ const profileReducer = (state = initialState, action) => {
 }
 
 //Action's
-export const addPostActionCreator = () => ({
-    type: ADD_POST
+export const addPostActionCreator = (newPostText) => ({
+    type: ADD_POST, newPostText
 })
 
 export const updateNewPostTextActionCreator = (text) => ({

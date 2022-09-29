@@ -6,7 +6,7 @@ import {Field, Form, Formik} from "formik";
 
 //либо вытягивать из props с помошью JS {state}
 const Dialogs = (props) => {
-
+    debugger
 
     let state = props.dialogsPage;
 
