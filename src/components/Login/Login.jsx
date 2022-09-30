@@ -1,6 +1,10 @@
 import React from 'react';
-import {ErrorMessage, Field, Form, Formik} from "formik";
-import * as Yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from 'formik';
+import * as Yup from 'yup';
+import style from './Login.module.css';
+import {connect} from "react-redux";
+import {Navigate} from 'react-router-dom';
+import {login} from "../../redux/Reducer/AuthReducer";
 
 
 const validateLoginForm = values => {
@@ -19,61 +23,56 @@ const validationSchemaLoginForm = Yup.object().shape({
 
     password: Yup.string()
         .min(2, "Must be longer than 2 characters")
-        .max(5, "Must be shorter than 5 characters")
+        .max(10, "Must be shorter than 10 characters")
         .required("Введите пароль")
 });
 
+const Login = (props) => {
 
-const Login = () => {
+    if (props.isAuth) return <Navigate to='/profile'/>
 
     return (
-        <div>
-            <h2>Login</h2>
-
+        <div className={style.login}>
+            <h1>Log in</h1>
             <Formik
-                initialValues={{
-                    email: "",
-                    password: "",
-                    rememberMe: false
-                }}
+                initialValues={{email: '', password: '', rememberMe: false, messages: null}}
                 validate={validateLoginForm}
                 validationSchema={validationSchemaLoginForm}
+
                 onSubmit={(values) => {
-                    console.log(values)
+                    props.login(values.email, values.password, values.rememberMe);
                 }}
             >
                 {() => (
                     <Form>
                         <div>
-                            <Field
-                                name={'email'}
-                                type={'text'}
-                                placeholder={'e-mail'}/>
+                            <Field type='email' name='email' placeholder='e-mail'/>
+                            <ErrorMessage name='email' component='p'/>
                         </div>
-                        <ErrorMessage name="email" component="div"/>
-
                         <div>
-                            <Field
-                                name={'password'}
-                                type={'password'}
-                                placeholder={'password'}/>
+                            <Field type='password' name='password' placeholder='password'/>
+                            <ErrorMessage name='password' component='p'/>
                         </div>
-                        <ErrorMessage name="password" component="div"/>
-
                         <div>
-                            <Field
-                                type={'checkbox'}
-                                name={'rememberMe'}
-                                id='rememberMe'/>
-                            <label htmlFor={'rememberMe'}> remember me </label>
+                            <Field type='checkbox' name='rememberMe'/>
+                            <label htmlFor='rememberMe'>remember me</label>
                         </div>
-
-                        <button type={'submit'}>Login</button>
+                        <button type='submit'>Log in</button>
+                        <p>{props.messageError}</p>
                     </Form>
                 )}
             </Formik>
         </div>
-    )
+    );
+};
+
+
+let mapStateToProps = (state) => {
+    return {
+        messageError: state.auth.messageError,
+        isAuth: state.auth.isAuth
+    }
 }
 
-export default Login;
+
+export default connect(mapStateToProps, {login})(Login);
