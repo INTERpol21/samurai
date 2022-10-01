@@ -38,18 +38,26 @@ const Login = (props) => {
                 initialValues={{email: '', password: '', rememberMe: false, messages: null}}
                 validate={validateLoginForm}
                 validationSchema={validationSchemaLoginForm}
-
-                onSubmit={(values) => {
-                    props.login(values.email, values.password, values.rememberMe);
+                validateOnBlur
+                onSubmit={(values, {setSubmitting, setStatus}) => {  // вторым параметром добавляем  setStatus
+                    props.login(values.email, values.password, values.rememberMe, setStatus);  // и сюда  setStatus - (это метод фотмика)
+                    setSubmitting(false);
                 }}
             >
-                {() => (
+                {({errors, touched, status}) => (
                     <Form>
+                        {status}
                         <div>
+                            <label htmlFor={`email`}>email</label>
+                            <br/>
                             <Field type='email' name='email' placeholder='e-mail'/>
                             <ErrorMessage name='email' component='p'/>
+                            {touched.email && errors.email && (
+                                <div className={style.error}>{errors.email}</div>)}
                         </div>
                         <div>
+                            <label htmlFor={`password`}>password</label>
+                            <br/>
                             <Field type='password' name='password' placeholder='password'/>
                             <ErrorMessage name='password' component='p'/>
                         </div>
