@@ -5,6 +5,7 @@ import ProfileReducer from "./Reducer/ProfileReducer";
 import SidBarReducer from "./Reducer/SidBarReducer";
 import UsersReducer from "./Reducer/UsersReducer";
 import authReducer from "./Reducer/AuthReducer";
+import appReducer from "./Reducer/AppReducer";
 // import thunk from "redux-thunk";
 
 
@@ -20,6 +21,7 @@ let store = configureStore({
         sidBarPage: SidBarReducer,
         usersPage: UsersReducer,
         auth: authReducer,
+        app: appReducer
 
     },
     // middleware: [thunk]

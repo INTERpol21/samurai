@@ -1,5 +1,5 @@
 import style from "./ProfileInfo.module.css";
-import ProfileStatus from "./ProdileStatus";
+import ProfileStatus from "./ProfileStatus";
 import Preloader from "../../../UX/Preloader/Preloader";
 
 import defaultAvatar from "./../../../../assets/images/avatar.png"
