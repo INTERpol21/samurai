@@ -140,7 +140,6 @@ class ProfileContainer extends React.Component {
 }
 
 
-
 function withRouter(Component) {
 
     function ComponentWithRouterProp(props) {
