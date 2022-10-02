@@ -106,12 +106,13 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
 
 //////////////САНКИ
 //создаем функцию thunk которую можно отправить с помошью dispatch и отправляет как CALLBACK!!!!
-export const getUsers = (currentPage, pageSize) => {
+export const usersThunk = (page, pageSize) => {
 
     return (dispatch) => {
         dispatch(toggleIsFetching(true))
+        dispatch(setCurrentPage(page))
         //import {usersAPI} from "../../api/API";
-        usersAPI.getUsers(currentPage, pageSize)
+        usersAPI.getUsersThunk(page, pageSize)
             .then(data => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
@@ -137,6 +138,7 @@ export const follow = (userId) => {
     }
 
 }
+
 export const unfollow = (userId) => {
 
     return (dispatch) => {
