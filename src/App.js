@@ -6,25 +6,25 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import {Component} from "react";
+import {useEffect} from "react";
 import {connect} from "react-redux";
 import {initializeApp} from "./redux/Reducer/AppReducer";
 
 
-class App extends Component {
-    componentDidMount() {
-        this.props.initializeApp()
-    }
+function App(props) {
 
-    render() {
+    useEffect(() => {
+        props.initializeApp()
+    }, []);
 
-        return (
-            <BrowserRouter>
-                <div className='app-wrapper'>
-                    <HeaderContainer/>
-                    <NavBar/>
-                    <div className='app-wrapper-content'>
-                        <Routes>
+
+    return (
+        <BrowserRouter>
+            <div className='app-wrapper'>
+                <HeaderContainer/>
+                <NavBar/>
+                <div className='app-wrapper-content'>
+                    <Routes>
                             <Route path="/dialogs/*" element={<DialogsContainer/>}/>
                             <Route path='/profile/:userId' element={<ProfileContainer/>}/>
                             <Route path='/profile/' element={<ProfileContainer/>}/>
@@ -41,7 +41,7 @@ class App extends Component {
             </BrowserRouter>
         );
     }
-}
+
 
 // export default connect(null, {getAuthUserData, logout})(App);
 const mapStateToProps = (state) => ({

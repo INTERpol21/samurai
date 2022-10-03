@@ -1,13 +1,18 @@
 import style from "./ProfileInfo.module.css";
-import ProfileStatus from "./ProfileStatus";
 import Preloader from "../../../UX/Preloader/Preloader";
 
 import defaultAvatar from "./../../../../assets/images/avatar.png"
+import ProfileStatusWithHOOK from "./ProfileStatusWithHOOK";
 
 const ProfileInfo = (props) => {
 
     if (!props.profile) {
-        return <Preloader/>
+        return (
+            <div>
+                <Preloader/>
+                <ProfileStatusWithHOOK status={props.status} updateStatus={props.updateStatus}/>
+            </div>
+        )
     }
 
 
@@ -23,7 +28,7 @@ const ProfileInfo = (props) => {
         </div>
         <div className={style.title}>
             <img src={props.profile.photos.large} alt=""/>
-            <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+            <ProfileStatusWithHOOK status={props.status} updateStatus={props.updateStatus}/>
 
             <div className={style.descriptionBlock}>
                 Name: {props.profile.fullName} <br/>
