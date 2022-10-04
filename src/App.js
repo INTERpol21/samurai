@@ -15,7 +15,7 @@ function App(props) {
 
     useEffect(() => {
         props.initializeApp()
-    }, []);
+    }, [props]);
 
 
     return (
@@ -25,22 +25,22 @@ function App(props) {
                 <NavBar/>
                 <div className='app-wrapper-content'>
                     <Routes>
-                            <Route path="/dialogs/*" element={<DialogsContainer/>}/>
-                            <Route path='/profile/:userId' element={<ProfileContainer/>}/>
-                            <Route path='/profile/' element={<ProfileContainer/>}/>
-                            <Route path="/users" element={<UsersContainer/>}/>
-                            <Route path="/login" element={<Login/>}/>
+                        <Route path="/dialogs/*" element={<DialogsContainer/>}/>
+                        <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                        <Route path='/profile/' element={<ProfileContainer/>}/>
+                        <Route path="/users" element={<UsersContainer/>}/>
+                        <Route path="/login" element={<Login/>}/>
 
 
-                            {/*<Route path="/news" element={<DialogsContainer/>}/>*/}
-                            {/*<Route path="/music" element={<ProfileContainer/>}/>*/}
-                            {/*<Route path="/settings" element={<DialogsContainer/>}/>*/}
-                        </Routes>
-                    </div>
+                        {/*<Route path="/news" element={<DialogsContainer/>}/>*/}
+                        {/*<Route path="/music" element={<ProfileContainer/>}/>*/}
+                        {/*<Route path="/settings" element={<DialogsContainer/>}/>*/}
+                    </Routes>
                 </div>
-            </BrowserRouter>
-        );
-    }
+            </div>
+        </BrowserRouter>
+    );
+}
 
 
 // export default connect(null, {getAuthUserData, logout})(App);
