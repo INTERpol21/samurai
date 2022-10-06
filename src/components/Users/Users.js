@@ -18,6 +18,7 @@ let Users = (props) => {
     let slicedPages = pages.slice(curPF, curPL);
 
     return (
+
         <div>
             <div className={styles.container}> {slicedPages.map((page, id) => {
                 return <span

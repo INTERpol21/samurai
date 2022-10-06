@@ -35,39 +35,33 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
 })
 //Санки
 //Залогинины мы или нет
-export const getAuthUserData = () => (dispatch) => {
-    authAPI.me()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                //Деструкуризация. Быть острожным с передачей и очередью setAuthUserData
-                let {id, email, login} = response.data.data
-                dispatch(setAuthUserData(id, email, login, true))
-            }
-        })
+export const getAuthUserData = () => async (dispatch) => {
+    let response = await authAPI.me()
+    if (response.data.resultCode === 0) {
+        //Деструкуризация. Быть острожным с передачей и очередью setAuthUserData
+        let {id, email, login} = response.data.data
+        dispatch(setAuthUserData(id, email, login, true))
+    }
 }
 
 
-export const logout = (email, password, rememberMe) => (dispatch) => {
-    authAPI.logout(email, password, rememberMe)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false))
+export const logout = (email, password, rememberMe) => async (dispatch) => {
+    let response = await authAPI.logout(email, password, rememberMe)
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false))
 
-            }
-        })
+    }
 }
 
 
 export const login = (email, password, rememberMe, setStatus) => {
-    return (dispatch) => {
-        authAPI.login(email, password, rememberMe).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(getAuthUserData())
-            } else {
-                setStatus(response.data.messages)
-            }
-
-        });
+    return async (dispatch) => {
+        let response = await authAPI.login(email, password, rememberMe)
+        if (response.data.resultCode === 0) {
+            dispatch(getAuthUserData())
+        } else {
+            setStatus(response.data.messages)
+        }
 
     }
 };
