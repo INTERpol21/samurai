@@ -6,9 +6,10 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import {useEffect} from "react";
-import {connect} from "react-redux";
+import React, {useEffect} from "react";
+import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/Reducer/AppReducer";
+import store from "./redux/redux-store";
 
 
 function App(props) {
@@ -48,4 +49,12 @@ const mapStateToProps = (state) => ({
     initialized: state.app.initialized
 })
 
-export default connect(mapStateToProps, {initializeApp})(App);
+const AppContainer = connect(mapStateToProps, {initializeApp})(App);
+
+let MainApp = (props) => {
+    return <Provider store={store}>
+        <AppContainer/>
+    </Provider>
+}
+
+export default MainApp
