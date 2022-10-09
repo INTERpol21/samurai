@@ -1,7 +1,6 @@
 import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-
+import {HashRouter, Route, Routes} from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -24,7 +23,7 @@ function App(props) {
 
     return (
 
-        <BrowserRouter>
+        <HashRouter>
             <div className='app-wrapper'>
                 <HeaderContainer/>
                 <NavBar/>
@@ -47,7 +46,7 @@ function App(props) {
                     </Suspense>
                 </div>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
