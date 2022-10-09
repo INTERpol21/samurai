@@ -1,8 +1,8 @@
 import style from "./ProfileInfo.module.css";
 import Preloader from "../../../UX/Preloader/Preloader";
-
 import defaultAvatar from "./../../../../assets/images/avatar.png"
 import ProfileStatusWithHOOK from "./ProfileStatusWithHOOK";
+
 
 const ProfileInfo = (props) => {
 

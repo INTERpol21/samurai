@@ -19,6 +19,7 @@ let Users = (props) => {
     return (
 
         <div>
+
             <div className={styles.container}> {slicedPages.map((page, id) => {
                 return <span
                     key={id} className={props.currentPage === page ? styles.selectedPage : styles.noSelectedPage}
@@ -62,10 +63,12 @@ let Users = (props) => {
                             <div>{user.status}</div>
                             <div>{"user.location.country"}</div>
                             <div>{"user.location.city"}</div>
+
                         </div>
                     </div>
                 )
             }
+
         </div>
     )
 }
