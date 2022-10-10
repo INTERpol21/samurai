@@ -19,7 +19,7 @@ let initialState = {
     ],
 
     profile: null,
-    status: ''
+    status: 'double click here to change status'
 };
 
 

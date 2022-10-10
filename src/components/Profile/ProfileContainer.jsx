@@ -66,16 +66,17 @@
 // )(ProfileContainer);
 //
 
-import React from "react";
-import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import Profile from "./Profile";
-import {getStatus, getUserProfile, updateStatus} from "../../redux/Reducer/ProfileReducer";
+import React from "react";
 import {connect} from "react-redux";
+import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
+import {getStatus, getUserProfile, updateStatus} from "../../redux/Reducer/ProfileReducer";
 import {compose} from "redux";
+
 
 class ProfileContainer extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             isShowMyProfile: true
         }
@@ -84,28 +85,28 @@ class ProfileContainer extends React.Component {
 
     componentDidMount() {
 
-        let userIdFromPath = +this.props.router.params.userId;
-        let authorisedUserId = this.props.authorisedUserId;
+        let userIdFromPath = +this.props.router.params.userId
+        let authorisedUserId = this.props.authorisedUserId
 
         if (userIdFromPath) {
-
-            this.props.getUserProfile(userIdFromPath);
-            this.props.getStatus(userIdFromPath);
+            //userId = 25994;
+            this.props.getUserProfile(userIdFromPath)
+            this.props.getStatus(userIdFromPath)
 
         } else {
 
             if (this.props.isAuth && authorisedUserId) {
-                this.props.getUserProfile(authorisedUserId);
-                this.props.getStatus(authorisedUserId);
+                this.props.getUserProfile(authorisedUserId)
+                this.props.getStatus(authorisedUserId)
             }
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate() {
 
-        let userIdFromPath = +this.props.router.params.userId;
-        let authorisedUserId = this.props.authorisedUserId;
-        let isShowMyProfile = this.state.isShowMyProfile;
+        let userIdFromPath = +this.props.router.params.userId
+        let authorisedUserId = this.props.authorisedUserId
+        let isShowMyProfile = this.state.isShowMyProfile
 
         if (isShowMyProfile) {
 
@@ -113,13 +114,14 @@ class ProfileContainer extends React.Component {
                 this.setState({isShowMyProfile: false})
             }
 
-            if (!userIdFromPath && this.props.isAuth) {
-                this.props.getUserProfile(authorisedUserId);
-                this.props.getStatus(authorisedUserId);
+            if (!userIdFromPath && this.props.isAuth && authorisedUserId) {
+                this.props.getUserProfile(authorisedUserId)
+                this.props.getStatus(authorisedUserId)
                 this.setState({isShowMyProfile: false})
             }
         }
     }
+
 
     render() {
 
@@ -127,12 +129,27 @@ class ProfileContainer extends React.Component {
             return <Navigate to={'/login'}/>
         }
 
+        let userIdFromPath = +this.props.router.params.userId
+        let authorisedUserId = this.props.authorisedUserId
+
+
+        let isOwner = false
+        if (!userIdFromPath && this.props.isAuth) {
+            isOwner = true
+        } else if (userIdFromPath === authorisedUserId) {
+            isOwner = true
+        }
+
+
         return (
             <div>
-                <Profile {...this.props}
-                         profile={this.props.profile}
-                         status={this.props.status}
-                         updateStatus={this.props.updateStatus}
+                <Profile
+                    profile={this.props.profile}
+                    status={this.props.status}
+                    updateStatus={this.props.updateStatus}
+                    isOwner={isOwner}
+                    savePhoto={this.props.savePhoto}
+                    saveProfile={this.props.saveProfile}
                 />
             </div>
         )
@@ -143,30 +160,37 @@ class ProfileContainer extends React.Component {
 function withRouter(Component) {
 
     function ComponentWithRouterProp(props) {
-        let location = useLocation();
-        let navigate = useNavigate();
-        let params = useParams();
+        let location = useLocation()
+        let navigate = useNavigate()
+        let params = useParams()
 
         return <Component
             {...props}
-            router={{location, navigate, params}}/>;
+            router={{location, navigate, params}}/>
     }
 
-    return ComponentWithRouterProp;
+    return ComponentWithRouterProp
 }
 
 
-let mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    authorisedUserId: state.auth.id,
-    isAuth: state.auth.isAuth
-})
+let mapStateToProps = (state) => {
+
+
+    return {
+        profile: state.profilePage.profile,
+        status: state.profilePage.status,
+        authorisedUserId: state.auth.id,
+        isAuth: state.auth.isAuth
+    }
+}
 
 
 const ProfileContainerCompose = compose(
     withRouter,
-    connect(mapStateToProps, {getUserProfile, getStatus, updateStatus})
-)(ProfileContainer);
+    connect(mapStateToProps,
+        {getUserProfile, getStatus, updateStatus,})
+)(ProfileContainer)
 
-export default ProfileContainerCompose;
+export default ProfileContainerCompose
+
+// savePhoto, saveProfile
