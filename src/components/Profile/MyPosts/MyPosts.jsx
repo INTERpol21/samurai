@@ -1,14 +1,16 @@
 import style from "./MyPosts.module.css";
 import React from "react";
 import Post from "./Post/Post";
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {ErrorMessageWrapper} from "../../../utils/validators/validators";
+import * as Yup from "yup";
 
 
 const MyPosts = React.memo(props => {
 
 
-    let postsElements = props.posts.map((post, id) => <Post key={id} message={post.message}
-                                                            likesCount={post.likesCount}/>).reverse();
+    let postsElements = props.posts.map((post) => <Post key={post.id} message={post.message}
+                                                        likesCount={post.likesCount}/>).reverse();
 
     // let newPostElement = createRef();
     //
@@ -28,57 +30,122 @@ const MyPosts = React.memo(props => {
     //     props.updateNewPostText(text)
     // }
 
-    const AddMassageForm = (props) => {
+//     const AddMassageForm = (props) => {
+//
+//         let addNewMessage = (values) => {
+//
+//             props.addPost(values);
+//         }
+//
+//         return (
+//             <Formik
+//                 initialValues={{
+//                     newPostText: ""
+//                 }}
+//                 onSubmit={(values, {resetForm}) => {
+//                     addNewMessage(values.newPostText);
+//                     resetForm({values: ''});
+//                 }
+//                 }
+//             >
+//                 {() => (
+//                     <Form>
+//                         <div>
+//                             <Field
+//                                 name={'newPostText'}
+//                                 as={'textarea'}
+//                                 placeholder={'Введите текст'}
+//                             />
+//                         </div>
+//                         <button type={'submit'}>Send</button>
+//                     </Form>
+//                 )}
+//             </Formik>
+//         )
+//     }
+//
+//
+//     return (<div className={style.blockPosts}>
+//
+//         <h2>My posts</h2>
+//         <div>
+//             <AddMassageForm addPost={props.addPost}/>
+//             {/*<form>*/}
+//             {/*    <input onChange={onPostChange} value={props.newPostText}*/}
+//             {/*           type="text" ref={newPostElement} placeholder={"Напиши текст"}/>*/}
+//             {/*    <button type={"button"} onClick={onAddPost}>Add post</button>*/}
+//             {/*</form>*/}
+//             <div className={style.posts}>
+//                 {postsElements}
+//             </div>
+//         </div>
+//     </div>)
+// })
+    return (
+        <div className={style.postsBlock}>
 
-        let addNewMessage = (values) => {
+            <h3 className={style.text_h3}>
+                My posts:
+            </h3>
 
-            props.addPost(values);
-        }
+            <AddNewPostForm
+                addPost={props.addPost}
+            />
 
-        return (
-            <Formik
-                initialValues={{
-                    newPostText: ""
-                }}
-                onSubmit={(values, {resetForm}) => {
-                    addNewMessage(values.newPostText);
-                    resetForm({values: ''});
-                }
-                }
-            >
-                {() => (
-                    <Form>
-                        <div>
-                            <Field
-                                name={'newPostText'}
-                                as={'textarea'}
-                                placeholder={'Введите текст'}
-                            />
-                        </div>
-                        <button type={'submit'}>Send</button>
-                    </Form>
-                )}
-            </Formik>
-        )
-    }
-
-
-    return (<div className={style.blockPosts}>
-
-        <h2>My posts</h2>
-        <div>
-            <AddMassageForm addPost={props.addPost}/>
-            {/*<form>*/}
-            {/*    <input onChange={onPostChange} value={props.newPostText}*/}
-            {/*           type="text" ref={newPostElement} placeholder={"Напиши текст"}/>*/}
-            {/*    <button type={"button"} onClick={onAddPost}>Add post</button>*/}
-            {/*</form>*/}
             <div className={style.posts}>
                 {postsElements}
             </div>
+
         </div>
-    </div>)
+    )
 })
 
 
-export default MyPosts;
+const AddNewPostForm = (props) => {
+
+    const validationSchema = Yup.object().shape({
+
+        newPostText: Yup.string()
+            .min(2, 'Must be longer than 2 characters !')
+            .max(100, 'Must be shorter than 100 characters !')
+            .required('Required !')
+    })
+
+    let addNewMessage = (values) => {
+        props.addPost(values);
+    }
+
+    return (
+        <Formik
+            initialValues={{
+                newPostText: ''
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values, {resetForm}) => {
+                addNewMessage(values.newPostText)
+                resetForm()
+            }}
+        >
+            {() => (
+                <Form>
+                    <div>
+                        <Field
+                            name={'newPostText'}
+                            as={'textarea'}
+                            placeholder={'Enter your message'}
+                        />
+                    </div>
+
+                    <ErrorMessage name="newPostText">
+                        {ErrorMessageWrapper}
+                    </ErrorMessage>
+
+                    <button type={'submit'}>Add posts</button>
+                </Form>
+            )}
+        </Formik>
+    )
+}
+
+
+export default MyPosts

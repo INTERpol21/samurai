@@ -1,7 +1,7 @@
 import axios from "axios";
 /*withCredentials: true Параметр настроек, разрешение кукис, API-KEY ключ взятые с сервера, в настройках профиля*/
 
-const instance = axios.create({
+export const instance = axios.create({
     withCredentials: true,
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     headers: {"API-KEY": "ce31efa1-7b01-45a6-b9af-d029d3088c40"}
@@ -22,18 +22,18 @@ export const usersAPI = {
 
     }
 }
-
-export const profileAPI = {
-    getProfile(userId) {
-        return instance.get(`profile/${userId}`)
-    },
-    getStatus(userId) {
-        return instance.get(`profile/status/${userId}`)
-    },
-    updateStatus(status) {
-        return instance.put(`profile/status/`, {status: status})
-    }
-}
+//
+// export const profileAPI = {
+//     getProfile(userId) {
+//         return instance.get(`profile/${userId}`)
+//     },
+//     getStatus(userId) {
+//         return instance.get(`profile/status/${userId}`)
+//     },
+//     updateStatus(status) {
+//         return instance.put(`profile/status/`, {status: status})
+//     }
+// }
 
 export const authAPI = {
 

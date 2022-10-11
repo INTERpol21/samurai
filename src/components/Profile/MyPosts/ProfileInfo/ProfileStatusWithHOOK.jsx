@@ -6,6 +6,13 @@ const ProfileStatusWithHOOK = (props) => {
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.status)
 
+    let isOwner = props.isOwner
+    let textStatusForOwner = ''
+    if (isOwner) {
+        textStatusForOwner = 'double click here to change'
+    }
+
+
     useEffect(() => {
         setStatus(props.status)
     }, [props.status])
@@ -14,7 +21,7 @@ const ProfileStatusWithHOOK = (props) => {
         setEditMode(true)
     }
 
-    const deactivateEditMode = () => {
+    const deActivateEditMode = () => {
         setEditMode(false)
         props.updateStatus(status)
     }
@@ -23,18 +30,35 @@ const ProfileStatusWithHOOK = (props) => {
         setStatus(e.currentTarget.value)
     }
 
+    if (!isOwner) {
+        return (
+            <div>
+                <b>Status</b><span>: </span>
+                <span>
+               {props.status}
+            </span>
+            </div>)
+    }
 
     return (
         <div>
             {!editMode &&
                 <div>
-                    <span onDoubleClick={activateEditMode}> {props.status || "No status"}</span>
+                    <b>Status</b><span>: </span>
+                    <span onDoubleClick={activateEditMode}>
+               {props.status || textStatusForOwner}
+            </span>
                 </div>
             }
+
             {editMode &&
                 <div>
-                    <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
-                           value={status}/>
+                    <input
+                        autoFocus={true}
+                        onBlur={deActivateEditMode}
+                        onChange={onStatusChange}
+                        value={status}
+                    />
                 </div>
             }
         </div>

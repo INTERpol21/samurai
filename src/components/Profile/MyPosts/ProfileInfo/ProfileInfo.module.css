@@ -1,8 +1,32 @@
 
-.picture  {
-  max-width: 1000px;
+.picture {
+    max-width: 1000px;
 }
 
-.title{
-  padding: 10px;
+.title {
+    padding: 10px;
+}
+
+.photoBlock img {
+    height: 200px;
+}
+
+.descriptionBlock {
+    padding: 10px;
+}
+
+.defaultAvatar {
+    height: 200px;
+}
+
+.profileBlock {
+    font-weight: normal;
+}
+
+.contact {
+    padding-left: 20px;
+}
+
+.buttonCancel {
+    margin-left: 13px;
 }

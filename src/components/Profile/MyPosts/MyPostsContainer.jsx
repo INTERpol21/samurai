@@ -1,4 +1,4 @@
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/Reducer/ProfileReducer";
+import {actions} from "../../../redux/Reducer/ProfileReducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 
@@ -49,24 +49,26 @@ const mapStateToProps = (state) => {
 
     return {
         posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText
+
     }
 }
 
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateNewPostText: (text) => {
-            let action = updateNewPostTextActionCreator(text)
-            dispatch(action);
-        },
-        addPost: (newPostText) => {
-            dispatch(addPostActionCreator(newPostText));
-        }
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         updateNewPostText: (text) => {
+//             let action = updateNewPostTextActionCreator(text)
+//             dispatch(action);
+//         },
+//         addPost: (newPostText) => {
+//             dispatch(addPostActionCreator(newPostText));
+//         }
+//     }
+// }
 
 
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+const MyPostsContainer = connect(mapStateToProps, {
+    addPost: actions.addPostActionCreator
+})(MyPosts)
 
 export default MyPostsContainer;
