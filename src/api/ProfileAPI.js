@@ -1,3 +1,5 @@
+import {instance} from "./API";
+
 export const profileAPI = {
 
     getProfile(userId) {

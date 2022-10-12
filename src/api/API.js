@@ -8,20 +8,20 @@ export const instance = axios.create({
 })
 
 
-export const usersAPI = {
-    getUsersThunk(currentPage, pageSize) {
-        return instance.get(`users?page=${currentPage} &count=${pageSize}`)
-
-    },
-    unfollow(userId) {
-        return instance.delete(`follow/${userId}`)
-
-    },
-    follow(userId) {
-        return instance.post(`follow/${userId}`)
-
-    }
-}
+// export const usersAPI = {
+//     getUsersThunk(currentPage, pageSize) {
+//         return instance.get(`users?page=${currentPage} &count=${pageSize}`)
+//
+//     },
+//     unfollow(userId) {
+//         return instance.delete(`follow/${userId}`)
+//
+//     },
+//     follow(userId) {
+//         return instance.post(`follow/${userId}`)
+//
+//     }
+// }
 //
 // export const profileAPI = {
 //     getProfile(userId) {
@@ -35,21 +35,30 @@ export const usersAPI = {
 //     }
 // }
 
-export const authAPI = {
+// export const authAPI = {
+//
+//     me() {
+//         return instance.get(`auth/me/`)
+//
+//     },
+//     login(email, password, rememberMe = false) {
+//         return instance.post(`auth/login/`, {email, password, rememberMe})
+//
+//     },
+//     logout() {
+//         return instance.delete(`auth/login/`)
+//
+//     },
+// }
 
-    me() {
-        return instance.get(`auth/me/`)
 
-    },
-    login(email, password, rememberMe = false) {
-        return instance.post(`auth/login/`, {email, password, rememberMe})
-
-    },
-    logout() {
-        return instance.delete(`auth/login/`)
-
-    },
+export const ResultCodeEnum = {
+    Success: 0,
+    Error: 1
 }
 
-
-
+export const ResultCodeForCaptchaEnum = {
+    Success: 0,
+    Error: 1,
+    CaptchaIsRequired: 10
+}

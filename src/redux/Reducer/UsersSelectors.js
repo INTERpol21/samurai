@@ -1,13 +1,13 @@
 import {createSelector} from '@reduxjs/toolkit'
 
-const getUsers = (state) => {
+const getUsersSelector = (state) => {
     return state.usersPage.users
 }
 
-export const getUsersSuperSelector = createSelector(getUsers,
+export const getUsersSuperSelector = createSelector(getUsersSelector,
     (users) => {
 
-        return users.filter(user => true)
+        return users.filter(unit => unit)
     })
 
 export const getPageSize = (state) => {
@@ -30,3 +30,6 @@ export const getFollowingInProgress = (state) => {
     return state.usersPage.followingInProgress
 }
 
+export const getUsersFilter = (state) => {
+    return state.usersPage.filter
+}

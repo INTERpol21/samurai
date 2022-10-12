@@ -1,8 +1,18 @@
 import style from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {ErrorMessageWrapper} from "../../utils/validators/validators";
+import * as Yup from "yup";
 
+
+const validationSchema = Yup.object().shape({
+
+    newMessageBody: Yup.string()
+        .min(2, 'Must be longer than 2 characters !')
+        .max(100, 'Must be shorter than 100 characters !')
+        .required('Required !')
+})
 
 //либо вытягивать из props с помошью JS {state}
 const Dialogs = (props) => {
@@ -43,6 +53,7 @@ const Dialogs = (props) => {
                 initialValues={{
                     newMessageBody: ""
                 }}
+                validationSchema={validationSchema}
                 onSubmit={(values, {resetForm}) => {
                     addNewMessage(values.newMessageBody);
                     resetForm({values: ''});
@@ -58,6 +69,9 @@ const Dialogs = (props) => {
                                 placeholder={'Введите текст'}
                             />
                         </div>
+                        <ErrorMessage name="newMessageBody">
+                            {ErrorMessageWrapper}
+                        </ErrorMessage>
 
                         <button type={'submit'}>Send</button>
                     </Form>
