@@ -1,78 +1,27 @@
-import style from "./ProfileInfo.module.css";
-import Preloader from "../../../UX/Preloader/Preloader";
-import defaultAvatar from "./../../../../assets/images/avatar.png"
-import ProfileStatusWithHOOK from "./ProfileStatusWithHOOK";
+import {useState} from "react";
 import ProfileDataForm from "./ProfileDataForm";
-import React, {ChangeEvent, useState} from 'react'
-
-
-// const ProfileInfo = (props) => {
-//
-//     if (!props.profile) {
-//         return (
-//             <div>
-//                 <Preloader/>
-//                 <ProfileStatusWithHOOK status={props.status} updateStatus={props.updateStatus}/>
-//             </div>
-//         )
-//     }
-//
-//
-//     return (<div>
-//
-//         <div>
-//             <img
-//                 src={props.profile.photos.large ? props.profile.photos.large : defaultAvatar}
-//                 alt={`user avatar ${props.profile.userId}`}
-//                 style={{borderRadius: 80, width: 150}}
-//
-//             />
-//         </div>
-//         <div className={style.title}>
-//             <img src={props.profile.photos.large} alt=""/>
-//             <ProfileStatusWithHOOK status={props.status} updateStatus={props.updateStatus}/>
-//
-//             <div className={style.descriptionBlock}>
-//                 Name: {props.profile.fullName} <br/>
-//                 About: {props.profile.aboutMe} <br/>
-//                 Contacts:
-//
-//                 facebook: {props.profile.contacts.facebook} <br/>
-//                 website: {props.profile.contacts.website} <br/>
-//                 VK: {props.profile.contacts.vk} <br/>
-//                 twitter: {props.profile.contacts.twitter} <br/>
-//                 instagram: {props.profile.contacts.instagram} <br/>
-//                 youtube: {props.profile.contacts.youtube} <br/>
-//                 github: {props.profile.contacts.github} <br/>
-//                 mainLink: {props.profile.contacts.mainLink} <br/><br/>
-//                 Looking for a job: {props.profile.lookingForAJob === true
-//                 ? props.profile.lookingForAJobDescription
-//                 : "Yes, i want work in Perrweb"} <br/>
-//                 <br/>
-//
-//
-//             </div>
-//         </div>
-//     </div>)
-// }
-
+import ProfileStatusWithHOOK from "./ProfileStatusWithHOOK";
+import Preloader from "../../../UX/Preloader/Preloader";
+import style from "./ProfileInfo.module.css";
+import defaultAvatar from "../../../../assets/images/avatar.png"
 
 const ProfileInfo = (props) => {
 
-    let [editMode, setEditMode] = useState(false)
+    let [editMode, setEditMode] = useState(false);
 
-    let {profile, saveProfile} = props
+
+    let {profile, saveProfile} = props;
 
 
     if (!profile) {
         return <Preloader/>
     }
 
-    let alt_descriptionBlock = `photo_${profile.userId}`
 
-    const onMainPhotoSelected = (event: ChangeEvent<HTMLInputElement>) => {
+    let alt_descriptionBlock = `photo_${profile.userId}`;
 
-        if (event.target.files?.length) {
+    const onMainPhotoSelected = (event) => {
+        if (event.target.files.length) {
             props.savePhoto(event.target.files[0])
         }
     }
@@ -80,27 +29,29 @@ const ProfileInfo = (props) => {
     const handleSubmit = (formData, setStatus,
                           setSubmitting, goToViewMode) => {
 
-        saveProfile(formData, setStatus, setSubmitting, goToViewMode)
+        saveProfile(formData, setStatus, setSubmitting, goToViewMode);
 
     }
 
 
     return (
         <div>
+            <div className={style.photoBlock}>
+                <img src='https://html5css.ru/css/img_forest.jpg' alt='photo555'/>
+            </div>
+
+            <div className={style.descriptionBlock}>
 
 
-        <div className={style.descriptionBlock}>
-
-                <img src={profile.photos.large !== null
-                    ? profile.photos.large
+                <img src={profile.photos.small !== null
+                    ? profile.photos.small
                     : defaultAvatar}
                      className={style.defaultAvatar}
                      alt={alt_descriptionBlock}
                 />
 
-                <div>
-                    {profile.fullName} - userId - {profile.userId}
-                </div>
+
+                ...Avatar - {profile.fullName} - userId - {profile.userId}
 
                 <div>
                     {props.isOwner
@@ -126,15 +77,14 @@ const ProfileInfo = (props) => {
 
                     <ProfileStatusWithHOOK
                         status={props.status}
-                        updateStatus={props.updateStatus}
-                        isOwner={props.isOwner}/>
+                        updateStatus={props.updateStatus}/>
 
                 </div>
 
             </div>
 
         </div>
-    )
+    );
 }
 
 
@@ -173,7 +123,7 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
                     return <Contacts
                         key={key}
                         contactTitle={key}
-                        contactValue={profile.contacts}/>
+                        contactValue={profile.contacts[key]}/>
                 })}
             </div>
 
@@ -189,6 +139,4 @@ const Contacts = ({contactTitle, contactValue}) => {
         </div>)
 }
 
-export default ProfileInfo
-
-
+export default ProfileInfo;

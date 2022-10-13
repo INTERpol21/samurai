@@ -169,6 +169,7 @@ class UsersContainer extends React.Component {
 
 
 let mapStateToProps = (state) => {
+    debugger
     return {
         //информация приходит через props из initialState=>UsersReducer.js=>state.usersPage
         users: getUsersSuperSelector(state),

@@ -23,12 +23,12 @@ const NavBar = () => {
             <div className={style.item}>
                 <NavLink className={isActive} to="/news">News</NavLink>
             </div>
-            <div className={style.item}>
-                <NavLink className={isActive} to="/music">Music</NavLink>
-            </div>
-            <div className={style.item}>
-                <NavLink className={isActive} to="/settings">Settings</NavLink>
-            </div>
+            {/*<div className={style.item}>*/}
+            {/*    <NavLink className={isActive} to="/music">Music</NavLink>*/}
+            {/*</div>*/}
+            {/*<div className={style.item}>*/}
+            {/*    <NavLink className={isActive} to="/settings">Settings</NavLink>*/}
+            {/*</div>*/}
         </nav>
     )
 }

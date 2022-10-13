@@ -1,4 +1,4 @@
-import {actions} from "../../../redux/Reducer/ProfileReducer";
+import {addPostActionCreator} from "../../../redux/Reducer/ProfileReducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 
@@ -68,7 +68,7 @@ const mapStateToProps = (state) => {
 
 
 const MyPostsContainer = connect(mapStateToProps, {
-    addPost: actions.addPostActionCreator
+    addPost: addPostActionCreator
 })(MyPosts)
 
 export default MyPostsContainer;

@@ -1,29 +1,26 @@
-import React from 'react'
-import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik'
-import * as Yup from 'yup'
-import style from './ProfileInfo.module.css'
-import styles from '../../../../utils/validators/ErrorMessage.module.css'
+import {ErrorMessage, Field, FieldArray, Form, Formik} from "formik";
 import {ErrorMessageWrapper} from "../../../../utils/validators/validators";
-
+import * as Yup from "yup";
+import style from "./ProfileInfo.module.css";
 
 const validationSchema = Yup.object().shape({
 
     fullName: Yup.string()
-        .min(2, 'Must be longer than 2 characters !')
-        .max(25, 'Must be shorter than 5 characters !')
-        .required('Required !'),
+        .min(2, "Must be longer than 2 characters !")
+        .max(25, "Must be shorter than 5 characters !")
+        .required("Required !"),
 
     lookingForAJobDescription: Yup.string()
-        .min(2, 'Must be longer than 2 characters !')
-        .max(50, 'Must be shorter than 5 characters !')
-        .required('Required !'),
+        .min(2, "Must be longer than 2 characters !")
+        .max(50, "Must be shorter than 5 characters !")
+        .required("Required !"),
 
     aboutMe: Yup.string()
-        .min(2, 'Must be longer than 2 characters !')
-        .max(50, 'Must be shorter than 5 characters !')
-        .required('Required !')
+        .min(2, "Must be longer than 2 characters !")
+        .max(50, "Must be shorter than 5 characters !")
+        .required("Required !"),
 
-})
+});
 
 let contactsJsx = (name) => {
     return (
@@ -40,22 +37,22 @@ let contactsJsx = (name) => {
                     placeholder={name}
                 />
             </div>
-        </div>)
+        </div>);
 }
 
 
 const ProfileDataForm = (props) => {
 
-    let {profile, handleSubmit, goToViewMode} = props
+    let {profile, handleSubmit, goToViewMode} = props;
 
-    let objectFromApiCopy = JSON.parse(JSON.stringify(profile))
+    let objectFromApiCopy = JSON.parse(JSON.stringify(profile));
 
-    const arrayWithNames = Object.keys(profile.contacts)
+    const arrayWithNames = Object.keys(profile.contacts);
 
     arrayWithNames.forEach((item) => {
-        let value = objectFromApiCopy.contacts[item]
+        let value = objectFromApiCopy.contacts[item];
         if (value === null) {
-            objectFromApiCopy.contacts[item] = ''
+            objectFromApiCopy.contacts[item] = '';
         }
     })
 
@@ -71,14 +68,14 @@ const ProfileDataForm = (props) => {
                 initialValues={objectFromApiCopy}
                 validationSchema={validationSchema}
                 onSubmit={(values, bagWithMethods) => {
-                    let {setStatus, setSubmitting} = bagWithMethods
+                    let {setStatus, setSubmitting} = bagWithMethods;
 
-                    handleSubmit(values, setStatus, setSubmitting, goToViewMode)
+                    handleSubmit(values, setStatus, setSubmitting, goToViewMode);
                 }}
             >
                 {(propsF) => {
 
-                    let {status, isSubmitting} = propsF
+                    let {status, isSubmitting} = propsF;
 
                     return (
                         <Form>
@@ -94,7 +91,9 @@ const ProfileDataForm = (props) => {
                                 {ErrorMessageWrapper}
                             </ErrorMessage>
 
-                            <div>< br/></div>
+                            <div>
+                                < br/>
+                            </div>
 
                             <div>
                                 <Field
@@ -105,7 +104,9 @@ const ProfileDataForm = (props) => {
                                     <b> Looking for a job</b> </label>
                             </div>
 
-                            <div>< br/></div>
+                            <div>
+                                < br/>
+                            </div>
 
                             <div>
                                 <Field
@@ -118,7 +119,9 @@ const ProfileDataForm = (props) => {
                                 {ErrorMessageWrapper}
                             </ErrorMessage>
 
-                            <div>< br/></div>
+                            <div>
+                                < br/>
+                            </div>
 
                             <div>
                                 <Field
@@ -131,7 +134,9 @@ const ProfileDataForm = (props) => {
                                 {ErrorMessageWrapper}
                             </ErrorMessage>
 
-                            <div>< br/></div>
+                            <div>
+                                < br/>
+                            </div>
 
                             <div>
                                 <b>Contacts</b>:
@@ -146,16 +151,18 @@ const ProfileDataForm = (props) => {
                                 )}
                             />
 
-                            <div>< br/></div>
+                            <div>
+                                < br/>
+                            </div>
 
                             {status &&
-                                <div className={styles.validationErrorMessage}>
+                                <div className={style.validationErrorMessage}>
                                     <b> ..{status} - with setStatus </b>
                                 </div>}
 
                             <button type={'submit'}
                                     disabled={isSubmitting}
-                            >{isSubmitting ? 'Please wait...' : 'Save'}
+                            >{isSubmitting ? "Please wait..." : "Save"}
                             </button>
 
                             <button onClick={goToViewMode}
@@ -181,4 +188,4 @@ const ProfileDataForm = (props) => {
         </div>)
 }
 
-export default ProfileDataForm
+export default ProfileDataForm;

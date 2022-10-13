@@ -102,7 +102,7 @@ class ProfileContainer extends React.Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
 
         let userIdFromPath = +this.props.router.params.userId
         let authorisedUserId = this.props.authorisedUserId

@@ -10,6 +10,7 @@ import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/Reducer/AppReducer";
 import store from "./redux/redux-store";
 import Preloader from "./components/UX/Preloader/Preloader";
+import News from "./components/News/News";
 
 
 const DialogsContainer = lazy(() => import("./components/Dialogs/DialogsContainer"));
@@ -20,6 +21,9 @@ function App(props) {
         props.initializeApp()
     }, [props]);
 
+    // if (!props.initialized) {
+    //     return <Preloader />
+    // }
 
     return (
 
@@ -30,16 +34,12 @@ function App(props) {
                 <div className='app-wrapper-content'>
                     <Suspense fallback={<Preloader/>}>
                         <Routes>
-
-                            <Route exact path="/dialogs" element={<DialogsContainer/>}/>
-
+                            <Route exact path="/dialogs/*" element={<DialogsContainer/>}/>
                             <Route path='/profile/:userId' element={<ProfileContainer/>}/>
                             <Route path='/profile/' element={<ProfileContainer/>}/>
                             <Route path="/users" element={<UsersContainer/>}/>
                             <Route path="/login" element={<Login/>}/>
-
-
-                            {/*<Route path="/news" element={<DialogsContainer/>}/>*/}
+                            <Route path="/news" element={<News/>}/>
                             {/*<Route path="/music" element={<ProfileContainer/>}/>*/}
                             {/*<Route path="/settings" element={<DialogsContainer/>}/>*/}
                         </Routes>
