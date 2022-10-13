@@ -89,7 +89,7 @@ const ProfileInfo = (props) => {
         <div>
 
 
-            <div className={style.descriptionBlock}>
+        <div className={style.descriptionBlock}>
 
                 <img src={profile.photos.large !== null
                     ? profile.photos.large
