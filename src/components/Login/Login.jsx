@@ -1,86 +1,151 @@
-import React from 'react';
-import {ErrorMessage, Field, Form, Formik} from 'formik';
-import * as Yup from 'yup';
-import style from './Login.module.css';
 import {connect} from "react-redux";
-import {Navigate} from 'react-router-dom';
 import {login} from "../../redux/Reducer/AuthReducer";
+import {ErrorMessageWrapper, validateEmailField} from "../../utils/validators/validators";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Navigate} from "react-router-dom";
+import * as Yup from "yup";
+import style from "./Login.module.css"
 
+const LoginPage = (props) => {
 
-const validateLoginForm = values => {
-    const errors = {};
-    if (!values.email) {
-        errors.email = 'Введите email';
-    } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-    ) {
-        errors.email = 'Invalid email address';
+    const validationSchema = Yup.object().shape({
+
+        password: Yup.string()
+            .min(2, "Must be longer than 2 characters")
+            .max(15, "Must be shorter than 15 characters")
+            .required("Required 2")
+    });
+
+    if (props.isAuth) {
+        return <Navigate to={'/profile'}/>
     }
-    return errors;
-};
-
-const validationSchemaLoginForm = Yup.object().shape({
-
-    password: Yup.string()
-        .min(2, "Must be longer than 2 characters")
-        .max(10, "Must be shorter than 10 characters")
-        .required("Введите пароль")
-});
-
-const Login = (props) => {
-
-    if (props.isAuth) return <Navigate to='/profile'/>
 
     return (
-        <div className={style.login}>
-            <h1>Log in</h1>
+        <div className={style.loginBlock}>
+            <h2> ... Login page </h2>
+
             <Formik
-                initialValues={{email: '', password: '', rememberMe: false, messages: null}}
-                validate={validateLoginForm}
-                validationSchema={validationSchemaLoginForm}
-                validateOnBlur
-                onSubmit={(values, {setSubmitting, setStatus}) => {  // вторым параметром добавляем  setStatus
-                    props.login(values.email, values.password, values.rememberMe, setStatus);  // и сюда  setStatus - (это метод фотмика)
-                    setSubmitting(false);
+                initialValues={{
+                    email: '',
+                    password: '',
+                    rememberMe: false,
+                    general: '',
+                    captcha: ''
+                }}
+                validate={validateEmailField}
+                validationSchema={validationSchema}
+
+                onSubmit={(values, bagWithMethods) => {
+
+                    let {setStatus, setFieldValue, setSubmitting} = bagWithMethods;
+
+                    //debugger
+
+                    props.login(
+                        values,
+                        setStatus,
+                        setFieldValue,
+                        setSubmitting);
+
                 }}
             >
-                {({errors, touched, status}) => (
-                    <Form>
-                        {status}
-                        <div>
-                            <label htmlFor={`email`}>email</label>
-                            <br/>
-                            <Field type='email' name='email' placeholder='e-mail'/>
-                            <ErrorMessage name='email' component='p'/>
-                            {touched.email && errors.email && (
-                                <div className={style.error}>{errors.email}</div>)}
-                        </div>
-                        <div>
-                            <label htmlFor={`password`}>password</label>
-                            <br/>
-                            <Field type='password' name='password' placeholder='password'/>
-                            <ErrorMessage name='password' component='p'/>
-                        </div>
-                        <div>
-                            <Field type='checkbox' name='rememberMe'/>
-                            <label htmlFor='rememberMe'>remember me</label>
-                        </div>
-                        <button type='submit'>Log in</button>
-                        <p>{props.messageError}</p>
-                    </Form>
-                )}
+                {(propsF) => {
+
+                    let {status, values, isSubmitting} = propsF;
+
+                    //console.log( status );
+                    //console.log( values.general );
+                    //console.log( propsF.isSubmitting );
+
+                    return (
+                        <Form>
+
+                            <div>
+
+                                {values.general &&
+                                    <div>
+                                        _.{values.general} - with setFieldValue
+                                    </div>}
+
+                                {status &&
+                                    <div className={style.validationErrorMessage}>
+                                        ..{status}
+                                    </div>}
+
+                                {status && props.captchaUrl &&
+                                    <div>
+
+                                        <div>
+                                            <img src={props.captchaUrl} alt={status}/>
+                                        </div>
+
+                                        <div>
+                                            <Field
+                                                name={'captcha'}
+                                                type={'text'}/>
+                                        </div>
+
+                                    </div>
+
+                                }
+
+                                <div>
+                                    <Field
+                                        name={'email'}
+                                        type={'text'}
+                                        placeholder={'e-mail'}/>
+                                </div>
+                                <ErrorMessage name="email">
+                                    {ErrorMessageWrapper}
+                                </ErrorMessage>
+
+                                <div>
+                                    <Field
+                                        name={'password'}
+                                        type={'password'}
+                                        placeholder={'password'}/>
+                                </div>
+                                <ErrorMessage name="password">
+                                    {ErrorMessageWrapper}
+                                </ErrorMessage>
+
+                                <div>
+                                    <Field
+                                        type={'checkbox'}
+                                        name={'rememberMe'}
+                                        id='rememberMe'/>
+                                    <label htmlFor={'rememberMe'}> remember me </label>
+                                </div>
+
+                                <button type={'submit'}
+                                        disabled={isSubmitting}
+                                >{isSubmitting ? "Please wait..." : "Submit"}</button>
+
+                            </div>
+
+
+                        </Form>
+                    )
+                }
+                }
             </Formik>
+
+            <div>
+                ...
+            </div>
+
+
         </div>
-    );
-};
-
-
-let mapStateToProps = (state) => {
-    return {
-        messageError: state.auth.messageError,
-        isAuth: state.auth.isAuth
-    }
+    )
 }
 
 
-export default connect(mapStateToProps, {login})(Login);
+const mapStateToProps = (state) => ({
+        isAuth: state.auth.isAuth,
+        captchaUrl: state.auth.captchaUrl
+    }
+);
+
+const LoginPageConnect = connect(mapStateToProps, {login})(LoginPage);
+
+export default LoginPageConnect;
