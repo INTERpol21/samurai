@@ -9,7 +9,7 @@ import React, {lazy, Suspense, useEffect} from "react";
 import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/Reducer/AppReducer";
 import store from "./redux/redux-store";
-import News from "./components/News/News";
+import About from "./components/About/About";
 import NotFound from "./components/NotFound/NotFound";
 import Preloader from "./utils/Preloader/Preloader";
 
@@ -42,7 +42,7 @@ function App(props) {
                             <Route path='/profile/*' element={<ProfileContainer/>}/>
                             <Route path="/users" element={<UsersContainer/>}/>
                             <Route path="/login" element={<Login/>}/>
-                            <Route path="/news" element={<News/>}/>
+                            <Route path="/about" element={<About/>}/>
                             <Route path='*' element={<NotFound/>}/>
                             {/*<Route path="/music" element={<ProfileContainer/>}/>*/}
                             {/*<Route path="/settings" element={<DialogsContainer/>}/>*/}

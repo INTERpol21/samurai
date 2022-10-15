@@ -1,15 +1,18 @@
 import React from 'react';
-import style from './News.module.css';
+import style from './About.module.css';
 
-const News = () => {
+const About = () => {
 
     return (
 
         <div className={style.newsBlock}>
 
             <div>
+                Мой ник
+                interpol21
                 <br/>
-                interpol21 - userId - 25994
+                Мой ID
+                - 25994
             </div>
 
             <div>
@@ -32,23 +35,18 @@ const News = () => {
 
 
                 <div>
-                    И смотрите в моем репозитории полный код,
+                    Дорогие гости, работодатели, Hr и все кому интересен этот проект
                 </div>
-                <div>
-                    буду рад за поставленные звездочки в нем)
-                </div>
-                <div>
-                    всем спасибо и приятного обучения)
-                </div>
+
 
 
                 <p>
                     <a
-                        href="https://interpol21.github.io/samurai"
+                        href="https://github.com/INTERpol21/samurai"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        Cсылка на этот проект на GitHub
+                        Cсылка GitHub на этот проект
                     </a>
                 </p>
 
@@ -61,4 +59,4 @@ const News = () => {
     );
 };
 
-export default News;
+export default About;
