@@ -4,11 +4,11 @@ import Users from "./Users";
 
 import {
     follow,
+    requestUsersThunkCreator,
     setCurrentPage,
     setUsers,
     toggleIsFetching,
-    unfollow,
-    usersThunk
+    unfollow
 } from "../../redux/Reducer/UsersReducer";
 import {compose} from "redux";
 import {
@@ -254,10 +254,10 @@ class UsersContainer extends React.Component {
 
         const {pageSize} = this.props;
 
-        usersAPI.getUsersThunk(pageNumber, pageSize)
-            .then(data => {
+        usersAPI.getUsers(pageNumber, pageSize)
+            .then(response => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(data.items)
+                this.props.setUsers(response.data.items)
             });
     }
 
@@ -303,7 +303,7 @@ const UsersContainerCompose = compose(
     //WithAuthRedirect,
     connect(mapStateToProps, {
         follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
-        getUsersProps: usersThunk
+        getUsersProps: requestUsersThunkCreator
     })
 )(UsersContainer)
 

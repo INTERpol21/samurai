@@ -15,7 +15,6 @@ let Paginator = (props) => {
     // 101 / 5 = 20,2 = окр 21 - всегда типо 21 стр показываем
 
     let pages = [];
-
     for (let i = 1; i <= pageCount; i++) {
         pages.push(i);
     }
@@ -24,7 +23,7 @@ let Paginator = (props) => {
     // 21/4 = 5,25 = 6 - это сколько долек всего и это число
     // не будем меняться если с сервера не придет другое
     let [portionNumber, setPortionNumber] = useState(1);
-    let leftPortionPageNumber = ((portionNumber - 1) * portionSize) + 1;
+    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     // (1 - 1) = 0 * 4 = 0 + 1 = 1
     // (2 - 1) = 1 * 4 = 4 + 1 = 5
     // (6 - 1) = 5 * 4 = 20 + 1 = 21
@@ -38,7 +37,7 @@ let Paginator = (props) => {
 
     return (
 
-        <div className={styles.paginator}>
+        <div className={cn(styles.paginator)}>
 
             {portionNumber > 1 &&
                 <button onClick={() => setPortionNumber(portionNumber - 1)}>
@@ -46,17 +45,17 @@ let Paginator = (props) => {
             }
 
             {pages
-                .filter(pageF => {
-                    return pageF >= leftPortionPageNumber
-                        && pageF <= rightPortionPageNumber
-                })
+                // .filter(pageF => {
+                //     return pageF >= leftPortionPageNumber
+                //         && pageF <= rightPortionPageNumber
+                // })
+                .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
                 .map(page => {
 
                     return (
                         <span
-                            className={cn(
-                                styles.pageNumber,
-                                {[styles.selectedPage]: currentPage === page})
+                            className={cn({[styles.selectedPage]: currentPage === page},
+                                styles.pageNumber)
                             }
                             key={page}
                             onClick={() => {

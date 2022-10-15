@@ -3,17 +3,17 @@ import {profileAPI} from "./ProfileAPI";
 
 
 export const usersAPI = {
-    getUsersThunk(currentPage, pageSize) {
-        return instance.get(`users?page=${currentPage} &count=${pageSize}`)
 
+    getUsers(currentPage, pageSize) {
+        return instance.get(`users?page=${currentPage} &count=${pageSize}`)
     },
+
     unfollow(userId) {
         return instance.delete(`follow/${userId}`)
-
     },
+
     follow(userId) {
         return instance.post(`follow/${userId}`)
-
     },
 
     getProfile(userId) {

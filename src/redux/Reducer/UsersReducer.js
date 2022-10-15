@@ -111,14 +111,14 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
 
 //////////////САНКИ
 //создаем функцию thunk которую можно отправить с помошью dispatch и отправляет как CALLBACK!!!!
-export const usersThunk = (page, pageSize) => {
+export const requestUsersThunkCreator = (page, pageSize) => {
 
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         dispatch(setCurrentPage(page))
 
         //import {usersAPI} from "../../api/API";
-        let response = await usersAPI.getUsersThunk(page, pageSize)
+        let response = await usersAPI.getUsers(page, pageSize)
         dispatch(toggleIsFetching(false))
         dispatch(setUsers(response.data.items))
         dispatch(setTotalUsersCount(response.data.totalCount))

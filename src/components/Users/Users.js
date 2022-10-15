@@ -80,9 +80,9 @@ import User from "./User";
 import Paginator from "../../utils/Paginator/Paginator";
 
 
-let Users = (props) => {
+const Users = (props) => {
 
-    let {
+    const {
         currentPage, onPageChanged, totalUsersCount,
         pageSize, followingInProgress, unfollow, follow,
         users
