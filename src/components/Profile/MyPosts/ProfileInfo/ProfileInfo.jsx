@@ -52,7 +52,8 @@ const ProfileInfo = (props) => {
                 />
 
 
-                ...Avatar - {profile.fullName} - userId - {profile.userId}
+                Name - {profile.fullName}
+                userId - {profile.userId}
 
                 <div>
                     {props.isOwner

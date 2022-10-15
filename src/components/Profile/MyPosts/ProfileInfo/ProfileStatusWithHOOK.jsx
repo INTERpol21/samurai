@@ -6,11 +6,11 @@ const ProfileStatusWithHOOK = (props) => {
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.status)
 
-    let isOwner = props.isOwner
-    let textStatusForOwner = ''
-    if (isOwner) {
-        textStatusForOwner = 'double click here to change'
-    }
+    // let isOwner = props.isOwner
+    // let textStatusForOwner = ''
+    // if (isOwner) {
+    //     textStatusForOwner = 'double click here to change'
+    // }
 
 
     useEffect(() => {
@@ -30,15 +30,15 @@ const ProfileStatusWithHOOK = (props) => {
         setStatus(e.currentTarget.value)
     }
 
-    if (!isOwner) {
-        return (
-            <div>
-                <b>Status</b><span>: </span>
-                <span>
-               {props.status}
-            </span>
-            </div>)
-    }
+    // if (!isOwner) {
+    //     return (
+    //         <div>
+    //             <b>Status</b><span>: </span>
+    //             <span>
+    //            {props.status}
+    //         </span>
+    //         </div>)
+    // }
 
     return (
         <div>
@@ -46,7 +46,7 @@ const ProfileStatusWithHOOK = (props) => {
                 <div>
                     <b>Status</b><span>: </span>
                     <span onDoubleClick={activateEditMode}>
-               {props.status || textStatusForOwner}
+               {props.status || 'double click here to change'}
             </span>
                 </div>
             }
