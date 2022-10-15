@@ -9,9 +9,9 @@ import React, {lazy, Suspense, useEffect} from "react";
 import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/Reducer/AppReducer";
 import store from "./redux/redux-store";
-import Preloader from "./components/UX/Preloader/Preloader";
 import News from "./components/News/News";
 import NotFound from "./components/NotFound/NotFound";
+import Preloader from "./utils/Preloader/Preloader";
 
 
 const DialogsContainer = lazy(() => import("./components/Dialogs/DialogsContainer"));

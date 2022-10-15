@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import React from "react";
 import Users from "./Users";
-import Preloader from "../UX/Preloader/Preloader";
+
 import {
     follow,
     setCurrentPage,
@@ -20,6 +20,7 @@ import {
     getUsersSuperSelector
 } from "../../redux/Reducer/UsersSelectors";
 import {usersAPI} from "../../api/UsersAPI";
+import Preloader from "../../utils/Preloader/Preloader";
 
 
 // let Users = (props) => {

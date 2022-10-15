@@ -1,4 +1,4 @@
-import gif from "../../../assets/images/gif.gif";
+import gif from "../../assets/images/gif.gif"
 import React from "react";
 
 

@@ -1,9 +1,10 @@
 import {useState} from "react";
 import ProfileDataForm from "./ProfileDataForm";
 import ProfileStatusWithHOOK from "./ProfileStatusWithHOOK";
-import Preloader from "../../../UX/Preloader/Preloader";
+
 import style from "./ProfileInfo.module.css";
 import defaultAvatar from "../../../../assets/images/avatar.png"
+import Preloader from "../../../../utils/Preloader/Preloader";
 
 const ProfileInfo = (props) => {
 
