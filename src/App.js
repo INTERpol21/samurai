@@ -1,6 +1,6 @@
 import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -11,6 +11,7 @@ import {initializeApp} from "./redux/Reducer/AppReducer";
 import store from "./redux/redux-store";
 import Preloader from "./components/UX/Preloader/Preloader";
 import News from "./components/News/News";
+import NotFound from "./components/NotFound/NotFound";
 
 
 const DialogsContainer = lazy(() => import("./components/Dialogs/DialogsContainer"));
@@ -25,6 +26,7 @@ function App(props) {
     //     return <Preloader />
     // }
 
+
     return (
 
         <HashRouter>
@@ -34,12 +36,14 @@ function App(props) {
                 <div className='app-wrapper-content'>
                     <Suspense fallback={<Preloader/>}>
                         <Routes>
+                            <Route path="/" element={<Navigate to="/profile"/>}/>
                             <Route exact path="/dialogs/*" element={<DialogsContainer/>}/>
                             <Route path='/profile/:userId' element={<ProfileContainer/>}/>
-                            <Route path='/profile/' element={<ProfileContainer/>}/>
+                            <Route path='/profile/*' element={<ProfileContainer/>}/>
                             <Route path="/users" element={<UsersContainer/>}/>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/news" element={<News/>}/>
+                            <Route path='*' element={<NotFound/>}/>
                             {/*<Route path="/music" element={<ProfileContainer/>}/>*/}
                             {/*<Route path="/settings" element={<DialogsContainer/>}/>*/}
                         </Routes>

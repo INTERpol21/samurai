@@ -7,7 +7,7 @@ let Paginator = (props) => {
 
     let {
         totalItemsCount, pageSize, currentPage, onPageChanged,
-        portionSize = 4
+        portionSize = 10
     } = props;
 
 

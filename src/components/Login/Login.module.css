@@ -16,3 +16,7 @@
 .loginBlock {
     padding: 10px;
 }
+
+.validationErrorMessage {
+    color: #d30e31;
+}
