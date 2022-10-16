@@ -60,6 +60,7 @@ const mapStateToProps = (state) => ({
     initialized: state.app.initialized
 })
 
+
 const AppContainer = connect(mapStateToProps, {initializeApp})(App);
 
 let MainApp = (props) => {
