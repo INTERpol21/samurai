@@ -22,7 +22,7 @@ const LoginPage = (props) => {
 
     return (
         <div className={style.loginBlock}>
-            <h2> ... Login page </h2>
+            <h2> Login page </h2>
 
             <Formik
                 initialValues={{
@@ -129,10 +129,6 @@ const LoginPage = (props) => {
                 }
                 }
             </Formik>
-
-            <div>
-                ...
-            </div>
 
 
         </div>

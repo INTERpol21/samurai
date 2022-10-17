@@ -51,9 +51,10 @@ const ProfileInfo = (props) => {
                      alt={alt_descriptionBlock}
                 />
 
+                <div>Name - {profile.fullName}</div>
 
-                Name - {profile.fullName}
-                userId - {profile.userId}
+
+                <div> userId - {profile.userId}</div>
 
                 <div>
                     {props.isOwner
