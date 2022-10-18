@@ -7,7 +7,7 @@ export const authAPI = {
         return instance.get(`auth/me/`)
 
     },
-    login(values) {
+    login(values: number | null) {
         return instance.post(`auth/login/`, {values})
 
     },
