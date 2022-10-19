@@ -1,5 +1,5 @@
 let initialState = {}
-const sidBarReducer = (state = initialState, action) => {
+const sidBarReducer = (state = initialState, action: any) => {
 
     return state;
 }

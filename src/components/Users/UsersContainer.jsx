@@ -179,7 +179,7 @@ import Preloader from "../../utils/Preloader/Preloader";
 // let mapStateToProps = (state) => {
 //     debugger
 //     return {
-//         //информация приходит через props из initialState=>UsersReducer.js=>state.usersPage
+//         //информация приходит через props из initialState=>UsersReducer.ts=>state.usersPage
 //         users: getUsersSuperSelector(state),
 //         pageSize: getPageSize(state),
 //         totalUsersCount: getTotalUsersCount(state),
