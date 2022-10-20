@@ -1,7 +1,9 @@
+import React, {FC} from "react";
+
 import {NavLink} from "react-router-dom";
 import style from "./NotFound.module.css"
 
-let NotFound = () => {
+let NotFound: FC = () => {
     return (
         <div className={style.notFoundBlock}>
             <div> ...Page 404</div>

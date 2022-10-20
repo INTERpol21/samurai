@@ -1,11 +1,13 @@
 import style from "./NavBar.module.css"
 import {NavLink} from "react-router-dom";
+import React, {FC} from "react";
 
-const isActive = (e) => {
+
+const isActive = (e: { isActive: boolean }) => {
     return e.isActive ? style.active : style.item;
 }
 
-const NavBar = () => {
+const NavBar: FC = () => {
 
     return (
 

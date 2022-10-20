@@ -1,8 +1,8 @@
 import gif from "../../assets/images/gif.gif"
-import React from "react";
+import React, {FC} from "react";
 
 
-let Preloader = (props) => {
+let Preloader: FC = () => {
     return (
         <div>
             <img src={gif} alt=""/>
