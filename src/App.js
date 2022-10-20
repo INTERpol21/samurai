@@ -63,7 +63,7 @@ const mapStateToProps = (state) => ({
 
 const AppContainer = connect(mapStateToProps, {initializeApp})(App);
 
-let MainApp = (props) => {
+let MainApp = () => {
     return <Provider store={store}>
         <AppContainer/>
     </Provider>

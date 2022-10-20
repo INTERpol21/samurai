@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {FC} from 'react';
 import style from './About.module.css';
 
-const About = () => {
+const About: FC = () => {
 
     return (
 
