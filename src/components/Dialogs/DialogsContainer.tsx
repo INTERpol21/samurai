@@ -1,8 +1,10 @@
-import {sendMessageCreator} from "../../redux/Reducer/DialogsReducer";
+import {actions} from "../../redux/Reducer/DialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
+import {AppStateGlobalType} from "../../redux/redux-store";
+import React from "react";
 
 
 //либо вытягивать из props с помошью JS {state}
@@ -47,39 +49,54 @@ import {compose} from "redux";
 // }
 //настраиваем свойство, которое мы возьмем из state.dialogsPage
 
-
-let mapStateToProps = (state) => {
-    return {
-        dialogsPage: state.dialogsPage
-
-    }
-}
-//Колбеки которые будем отправлять в призентационую компоненту
-let mapDispatchToProps = (dispatch) => {
-    return {
-        sendMessage: (newMessageText) => {
-
-            dispatch(sendMessageCreator(newMessageText))
-        },
-        // updateNewMessageBody: (body) => {
-        //     dispatch(updateNewMessageBodyCreator(body))
-        // },
-
-    }
-}
-//Конвейр вызовов с низу вверх
-// compose(
+//
+// let mapStateToProps = (state) => {
+//     return {
+//         dialogsPage: state.dialogsPage
+//
+//     }
+// }
+// //Колбеки которые будем отправлять в призентационую компоненту
+// let mapDispatchToProps = (dispatch) => {
+//     return {
+//         sendMessage: (newMessageText) => {
+//
+//             dispatch(sendMessageCreator(newMessageText))
+//         },
+//         // updateNewMessageBody: (body) => {
+//         //     dispatch(updateNewMessageBodyCreator(body))
+//         // },
+//
+//     }
+// }
+// //Конвейр вызовов с низу вверх
+// // compose(
+// //     connect(mapStateToProps, mapDispatchToProps),
+// //     withAuthRedirect
+// // )(Dialogs)
+// //
+// // //HOC
+// // let AuthRedirectComponent = withAuthRedirect(Dialogs)
+// //
+// //
+// // const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+//
+// export default compose(
 //     connect(mapStateToProps, mapDispatchToProps),
 //     withAuthRedirect
-// )(Dialogs)
-//
-// //HOC
-// let AuthRedirectComponent = withAuthRedirect(Dialogs)
-//
-//
-// const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+// )(Dialogs);
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
+
+let mapStateToProps = (state: AppStateGlobalType) => {
+    return {
+        dialogsPage: state.dialogsPage
+    }
+}
+
+
+const DialogsContainer = compose<React.ComponentType>(
+    connect(mapStateToProps, {...actions}),
     withAuthRedirect
-)(Dialogs);
+)(Dialogs)
+
+export default DialogsContainer

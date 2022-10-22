@@ -14,10 +14,12 @@
     color: aqua;
 }
 
-.dialogs__messages{
-
+.massages {
+    padding: 10px;
 }
 
-.message{
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
 
 }

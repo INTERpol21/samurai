@@ -1,107 +1,110 @@
-// import styles from "./users.module.css";
-// import Avatar from "../../assets/images/avatar.png";
-// import React from "react";
-// import {NavLink} from "react-router-dom";
-//
-//
-// let Users = (props) => {
-//     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-//
-//     let pages = []
-//     for (let i = 1; i <= pagesCount; i++) {
-//         pages.push(i)
-//     }
-//     let curP = props.currentPage;
-//     let curPF = ((curP - 5) < 0) ? 0 : curP - 5;
-//     let curPL = curP + 5;
-//     let slicedPages = pages.slice(curPF, curPL);
-//
-//     return (
-//
-//         <div>
-//
-//             <div className={styles.container}> {slicedPages.map((page, id) => {
-//                 return <span
-//                     key={id} className={props.currentPage === page ? styles.selectedPage : styles.noSelectedPage}
-//                     onClick={() => {
-//                         props.onPageChanged(page)
-//                     }}>{page}
-//                 </span>
-//             })}
-//             </div>
-//
-//             {
-//                 props.users.map(user =>
-//                     <div key={user.id}>
-//                         <div>
-//                             <NavLink to={`/profile/${user.id}`}>
-//                                 <img className={styles.userPhoto}
-//                                      src={user.photos.small != null ? user.photos.small : Avatar} alt=""/>
-//                             </NavLink>
-//
-//                         </div>
-//                         <div>
-//                             {user.followed
-//                                 ? <button
-//                                     disabled={props.followingInProgress
-//                                         .includes(user.id)} onClick={() => {
-//                                     props.unfollow(user.id)
-//                                 }}>
-//                                     Unfollow
-//                                 </button>
-//                                 : <button
-//                                     disabled={props.followingInProgress
-//                                         .includes(user.id)} onClick={() => {
-//                                     props.follow(user.id)
-//                                 }}>
-//                                     Follow
-//                                 </button>}
-//                         </div>
-//
-//                         <div>
-//                             <div>{user.name}</div>
-//                             <div>{user.status}</div>
-//                             <div>{"user.location.country"}</div>
-//                             <div>{"user.location.city"}</div>
-//
-//                         </div>
-//                     </div>
-//                 )
-//             }
-//
-//         </div>
-//     )
-// }
-//
-// export default Users
-
-
-import User from "./User";
+import UsersSearchForm from "./UsersSearchForm";
 import Paginator from "../../utils/Paginator/Paginator";
-import React, {FC} from "react";
-import {UserType} from "../../types/types";
+import User from "./User";
+import React, {useEffect} from "react";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getPageSize,
+    getTotalUsersCount,
+    getUsersFilter,
+    getUsersSuperSelector
+} from "../../redux/Reducer/UsersSelectors";
+import {useDispatch, useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
+import {FilterUsersReducerType, follow, requestUsers, unfollow} from "../../redux/Reducer/UsersReducer";
 
-type PropsType = {
-    currentPage: number
-    onPageChanged: (pageNumber: number) => void
-    totalUsersCount: number
-    pageSize: number
-    followingInProgress: Array<number>
-    unfollow: (userId: number) => void
-    follow: (userId: number) => void
-    users: Array<UserType>
-}
+export const Users: React.FC = () => {
+
+    const users = useSelector(getUsersSuperSelector)
+    const totalUsersCount = useSelector(getTotalUsersCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const filter = useSelector(getUsersFilter)
+    const followingInProgress = useSelector(getFollowingInProgress)
+
+    const dispatch = useDispatch()
+
+    const [searchParams, setSearchParams] = useSearchParams()
 
 
-const Users: FC<PropsType> = ({
-                                  currentPage, onPageChanged, totalUsersCount,
-                                  pageSize, followingInProgress,
-                                  unfollow, follow, users
-                              }) => {
+    useEffect(() => {
+
+        const result: any = {}
+        // @ts-ignore
+        for (const [key, value] of searchParams.entries()) {
+            let value2: any = +value
+            if (isNaN(value2)) {
+                value2 = value
+            }
+            if (value === 'true') {
+                value2 = true
+            } else if (value === 'false') {
+                value2 = false
+            }
+            result[key] = value2
+        }
+
+        let actualPage = result.page || currentPage
+        let term = result.term || filter.term
+
+        let friend = result.friend || filter.friend
+        if (result.friend === false) {
+            friend = result.friend
+        }
+
+        const actualFilter = {friend, term}
+
+        // @ts-ignore
+        dispatch(requestUsers(actualPage, pageSize, actualFilter))
+
+        // eslint-disable-next-line
+    }, [])
+
+
+    useEffect(() => {
+
+        const term = filter.term
+        const friend = filter.friend
+
+        let urlQuery =
+            (term === '' ? '' : `&term=${term}`)
+            + (friend === null ? '' : `&friend=${friend}`)
+            + (currentPage === 1 ? '' : `&page=${currentPage}`)
+
+        setSearchParams(urlQuery)
+
+        // eslint-disable-next-line
+    }, [filter, currentPage])
+
+
+    const onPageChanged = (pageNumber: number) => {
+        // @ts-ignore
+        dispatch(requestUsers(pageNumber, pageSize, filter))
+    }
+
+    const onFilterChanged = (filter: FilterUsersReducerType) => {
+        // @ts-ignore
+        dispatch(requestUsers(1, pageSize, filter))
+    }
+
+    const followTransit = (userId: number) => {
+        // @ts-ignore
+        dispatch(follow(userId))
+    }
+
+    const unfollowTransit = (userId: number) => {
+        // @ts-ignore
+        dispatch(unfollow(userId))
+    }
 
 
     return (
         <div>
+
+            <div>
+                <UsersSearchForm onFilterChanged={onFilterChanged}/>
+            </div>
 
             <Paginator currentPage={currentPage}
                        onPageChanged={onPageChanged}
@@ -114,13 +117,11 @@ const Users: FC<PropsType> = ({
                     <User key={user.id}
                           user={user}
                           followingInProgress={followingInProgress}
-                          unfollow={unfollow}
-                          follow={follow}
+                          follow={followTransit}
+                          unfollow={unfollowTransit}
                     />)
                 }
             </div>
 
         </div>)
 }
-
-export default Users;

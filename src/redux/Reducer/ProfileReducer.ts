@@ -1,6 +1,8 @@
 //action creator, action type
 import {profileAPI} from "../../api/ProfileAPI";
 import {PhotosType, PostType, ProfileType} from "../../types/types";
+import {BaseThunkType, InferActionsTypes} from "../redux-store";
+import {ResultCodeEnum} from "../../api/API";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
@@ -27,61 +29,79 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+
+type ActionsType = InferActionsTypes<typeof actions>
+
+type ThunkType = BaseThunkType<ActionsType>
+
+const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
 
     switch (action.type) {
 
-        case ADD_POST: {
+        case 'SN/PROFILE/ADD-POST': {
 
-            // let newPost = {
-            //     id: 7, message: state.newPostText, likesCount: 0
-            // };
-            //Копия и пуш объекта
-            let body = action.newPostText
+
+            let nextIdMessages = state.posts.length + 1
+
+            let newPosts = {
+                id: nextIdMessages + action.newPostText,
+                message: action.newPostText,
+                likesCount: 552
+            }
+
             return {
                 ...state,
-                posts: [...state.posts, {
-                    id: 7, message: body, likesCount: 0
-                }],
-                newPostText: "",
+                posts: [...state.posts, newPosts]
             }
-            // stateCopy.posts = [...state.posts, ]
-            // stateCopy.posts.push(newPost);
-            // //Зануление
-            // stateCopy.newPostText = "";
-            //
-            // return stateCopy;
         }
+        // let newPost = {
+        //     id: 7, message: state.newPostText, likesCount: 0
+        // };
+        //Копия и пуш объекта
+        // let body = action.newPostText
+        // return {
+        //     ...state,
+        //     posts: [...state.posts, {
+        //         id: 7, message: body, likesCount: 0
+        //     }],
+        //     newPostText: "",
+        // stateCopy.posts = [...state.posts, ]
+        // stateCopy.posts.push(newPost);
+        // //Зануление
+        // stateCopy.newPostText = "";
+        //
+        // return stateCopy;
 
-        case UPDATE_NEW_POST_TEXT: {
-            return {
-                ...state,
-                newPostText: action.newText
-            }
-            // stateCopy.newPostText = action.newText;
-            //
-            // return stateCopy;
-        }
-        case SET_USER_PROFILE: {
+
+        // case UPDATE_NEW_POST_TEXT: {
+        //     return {
+        //         ...state,
+        //         newPostText: action.newText
+        //     }
+        //     // stateCopy.newPostText = action.newText;
+        //     //
+        //     // return stateCopy;
+        // }
+        case 'SN/PROFILE/SET_USER_PROFILE': {
             return {
                 ...state,
                 profile: action.profile
             }
         }
-        case SET_STATUS: {
+        case 'SN/PROFILE/SET_STATUS': {
             return {
                 ...state,
                 status: action.status
             }
         }
-        case DELETE_POST: {
+        case 'SN/PROFILE/DELETE_POST': {
             return {
                 ...state,
                 posts: state.posts.filter(p => p.id !== action.postId)
             }
         }
-        case SAVE_PHOTO_SUCCESS:
+        case 'SN/PROFILE/SAVE_PHOTO_SUCCESS':
 
             return {
                 ...state,
@@ -95,66 +115,46 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
 }
 
 
+export const actions = {
+
+    addPostActionCreator: (newPostText: string) => ({
+        type: 'SN/PROFILE/ADD-POST', newPostText
+    } as const),
+
+    setUserProfile: (profile: ProfileType) => (
+        {type: 'SN/PROFILE/SET_USER_PROFILE', profile} as const),
+
+    setStatus: (status: string) => ({type: 'SN/PROFILE/SET_STATUS', status} as const),
+
+    deletePost: (postId: number) => ({type: 'SN/PROFILE/DELETE_POST', postId} as const),
+
+    savePhotoSuccess: (photos: PhotosType) => ({
+        type: 'SN/PROFILE/SAVE_PHOTO_SUCCESS', photos
+    } as const)
+}
+
+
 //Action's
-type AddPostActionCreatorType = {
-    type: typeof ADD_POST
-    newPostText: string
-}
-export const addPostActionCreator = (newPostText: string): AddPostActionCreatorType => ({
-    type: ADD_POST, newPostText
-})
-
-
-// export const updateNewPostTextActionCreator = (text) => ({
-//     type: UPDATE_NEW_POST_TEXT, newText: text
-// })
-type SetUserProfileActionType = {
-    type: typeof SET_USER_PROFILE
-    profile: ProfileType
-}
-export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({
-    type: SET_USER_PROFILE, profile
-})
-
-type SetStatusActionType = {
-    type: typeof SET_STATUS
-    status: string
-}
-export const setStatus = (status: string): SetStatusActionType => ({
-    type: SET_STATUS, status
-})
-
-type DeletePostActionType = {
-    type: typeof DELETE_POST
-    postId: number
-}
-export const deletePost = (postId: number): DeletePostActionType => ({type: DELETE_POST, postId})
-
-type SavePhotoSuccessActionType = {
-    type: typeof SAVE_PHOTO_SUCCESS
-    photos: PhotosType
-}
-export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos})
 
 
 //Санки
-export const getUserProfile = (userId: number) => async (dispatch: any) => {
+export const getUserProfile = (userId: number): ThunkType => async (dispatch) => {
     let response = await profileAPI.getProfile(userId)
-    dispatch(setUserProfile(response.data))
+    dispatch(actions.setUserProfile(response.data))
 }
 
-export const getStatus = (userId: number) => async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType => async (dispatch) => {
     let response = await profileAPI.getStatus(userId)
-    dispatch(setStatus(response.data))
+    dispatch(actions.setStatus(response.data))
 }
 
-export const updateStatus = (status: string) => async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType => async (dispatch) => {
 
     try {
         const response = await profileAPI.updateStatus(status);
 
-        if (response.data.resultCode === 0) {
-            dispatch(setStatus(status));
+        if (response.data.resultCode === ResultCodeEnum.Success) {
+            dispatch(actions.setStatus(status));
         }
 
     } catch (error) {
@@ -167,25 +167,31 @@ export const savePhoto = (photoFile: any) => async (dispatch: any) => {
 
     const response = await profileAPI.savePhoto(photoFile);
 
-    if (response.data.resultCode === 0) {
-        dispatch(savePhotoSuccess(response.data.data.photos));
+    if (response.data.resultCode === ResultCodeEnum.Success) {
+        dispatch(actions.savePhotoSuccess(response.data.data.photos));
     }
 
 }
 
-export const saveProfile = (formData: any, setStatus: any, setSubmitting: any, goToViewMode: any) => async (dispatch: any, getState: any) => {
+export const saveProfile = (
+    formData: ProfileType, setStatus: any, setSubmitting: any, goToViewMode: any): ThunkType =>
+    async (dispatch, getState) => {
 
-    const response = await profileAPI.saveProfile(formData);
+        const response = await profileAPI.saveProfile(formData);
 
-    let resultCode = response.data.resultCode;
+        let resultCode = response.data.resultCode;
 
-    if (resultCode === 0) {
-        const userId = getState().auth.id;
-        goToViewMode();
-        dispatch(getUserProfile(userId));
-    } else {
+        if (resultCode === ResultCodeEnum.Success) {
+            const userId = getState().auth.id;
+            goToViewMode();
+            if (userId) {
+                await dispatch(getUserProfile(userId))
+            } else {
+                throw new Error('userId can\'t be null')
+            }
+        } else {
 
-        let textError = `resultCode: ${resultCode} - ${response.data.messages.join(', ')}`;
+            let textError = `resultCode: ${resultCode} - ${response.data.messages.join(', ')}`;
         setStatus(textError);
         setSubmitting(false);
     }

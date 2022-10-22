@@ -1,25 +1,29 @@
-import {instance} from "./API";
-import {profileAPI} from "./ProfileAPI";
+import {APIResponseType, GetItemsType, instance} from "./API";
 
 
 export const usersAPI = {
 
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get(`users?page=${currentPage} &count=${pageSize}`)
+    getUsersAPI(currentPage: number, pageSize: number,
+                term: string = '', friend: null | boolean = null) {
+
+
+        const urlQuery = `users?page=${currentPage}&count=${pageSize}`
+            + (term === '' ? '' : `&term=${term}`)
+            + (friend === null ? '' : `&friend=${friend}`)
+
+        return instance.get<GetItemsType>(urlQuery)
+            .then(response => response.data)
     },
 
-    unfollow(userId: number | null) {
-        return instance.delete(`follow/${userId}`)
+    follow(userId: number) {
+        return instance.post<APIResponseType>(`follow/${userId}`)
+            .then(res => res.data)
     },
 
-    follow(userId: number | null) {
-        return instance.post(`follow/${userId}`)
-    },
 
-    getProfile(userId: number | null) {
-        //console.warn('это старый метод - переделай его на
-        //profileAPI.getProfile');
-        return profileAPI.getProfile(userId);
+    unfollow(userId: number) {
+        return instance.delete<APIResponseType>(`follow/${userId}`)
+            .then(res => res.data)
     }
 
 }
