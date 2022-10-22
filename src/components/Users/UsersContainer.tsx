@@ -328,14 +328,13 @@
 //
 // export default UsersContainerCompose;
 
-
 import {useSelector} from "react-redux";
 import React from "react";
 import {getIsFetching} from "../../redux/Reducer/UsersSelectors";
 import Preloader from "../../utils/Preloader/Preloader";
-
-import styles from "*.module.css";
+import styles from "./users.module.css"
 import {Users} from "./Users";
+
 
 type UserPagePropsType = {
     pageTitle: string

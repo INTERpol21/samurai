@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import ProfileDataForm from "./ProfileDataForm";
 import style from "./ProfileInfo.module.css";
-import defaultAvatar from "../../../../assets/images/avatar.png"
+import defaultAvatar from "../../../assets/images/avatar.png"
 import {ContactsType, ProfileType} from "../../../types/types";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import Preloader from "../../../utils/Preloader/Preloader";

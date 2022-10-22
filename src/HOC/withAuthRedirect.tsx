@@ -25,13 +25,11 @@ export function withAuthRedirect<WCP>(
         let {isAuth, ...restProps} = props
 
         if (!isAuth) {
-
-            return <Navigate to = {'/login'}
-            />
+            return <Navigate to={'/login'}/>
         }
 
-        return <WrappedComponent {...restProps as WCP}
-        />
+        // @ts-ignore
+        return <WrappedComponent {...restProps as WCP} />
     }
 
     return connect<MapPropsType, DispatchPropsType,
