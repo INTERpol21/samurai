@@ -72,10 +72,30 @@ import {connect} from "react-redux";
 import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {getStatus, getUserProfile, savePhoto, saveProfile, updateStatus} from "../../redux/Reducer/ProfileReducer";
 import {compose} from "redux";
+import {ProfileType} from "../../types/types";
+import {AppStateGlobalType} from "../../redux/redux-store";
 
 
-class ProfileContainer extends React.Component {
-    constructor(props) {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+
+type DispatchPropsType = {
+    getUserProfile: (userId: number) => void
+    getStatus: (userId: number) => void
+    updateStatus: (status: string) => void
+    savePhoto: (photoFile: File) => void
+    saveProfile: (formData: ProfileType, setStatus: any,
+                  setSubmitting: any, goToViewMode: any) => void
+    router: any
+    profile: any
+}
+
+
+type PropsType = MapPropsType & DispatchPropsType
+
+type LocalStateType = { isShowMyProfile: boolean }
+
+class ProfileContainer extends React.Component<PropsType, LocalStateType> {
+    constructor(props: PropsType) {
         super(props)
         this.state = {
             isShowMyProfile: true
@@ -89,7 +109,8 @@ class ProfileContainer extends React.Component {
         let authorisedUserId = this.props.authorisedUserId
 
         if (userIdFromPath) {
-            //userId = 25994;
+            //userId = 2;
+            //userId = 23275;
             this.props.getUserProfile(userIdFromPath)
             this.props.getStatus(userIdFromPath)
 
@@ -102,7 +123,7 @@ class ProfileContainer extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: PropsType & LocalStateType, prevState: PropsType & LocalStateType) {
 
         let userIdFromPath = +this.props.router.params.userId
         let authorisedUserId = this.props.authorisedUserId
@@ -157,9 +178,10 @@ class ProfileContainer extends React.Component {
 }
 
 
-function withRouter(Component) {
+// wrapper to use react router's v6 hooks in class component (to use HOC pattern, like in router v5)
+function withRouter(Component: any) {
 
-    function ComponentWithRouterProp(props) {
+    function ComponentWithRouterProp(props: any) {
         let location = useLocation()
         let navigate = useNavigate()
         let params = useParams()
@@ -173,7 +195,7 @@ function withRouter(Component) {
 }
 
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateGlobalType) => {
 
 
     return {
@@ -185,12 +207,10 @@ let mapStateToProps = (state) => {
 }
 
 
-const ProfileContainerCompose = compose(
+const ProfileContainerCompose = compose<React.ComponentType>(
     withRouter,
     connect(mapStateToProps,
         {getUserProfile, getStatus, updateStatus, savePhoto, saveProfile})
 )(ProfileContainer)
 
 export default ProfileContainerCompose
-
-// savePhoto, saveProfile

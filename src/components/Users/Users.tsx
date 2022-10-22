@@ -55,7 +55,7 @@ export const Users: React.FC = () => {
 
         const actualFilter = {friend, term}
 
-        // @ts-ignore
+
         dispatch(requestUsers(actualPage, pageSize, actualFilter))
 
         // eslint-disable-next-line
@@ -79,22 +79,22 @@ export const Users: React.FC = () => {
 
 
     const onPageChanged = (pageNumber: number) => {
-        // @ts-ignore
+
         dispatch(requestUsers(pageNumber, pageSize, filter))
     }
 
     const onFilterChanged = (filter: FilterUsersReducerType) => {
-        // @ts-ignore
+
         dispatch(requestUsers(1, pageSize, filter))
     }
 
     const followTransit = (userId: number) => {
-        // @ts-ignore
+
         dispatch(follow(userId))
     }
 
     const unfollowTransit = (userId: number) => {
-        // @ts-ignore
+
         dispatch(unfollow(userId))
     }
 

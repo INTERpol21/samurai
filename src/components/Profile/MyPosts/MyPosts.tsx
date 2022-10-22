@@ -4,16 +4,11 @@ import Post from "./Post/Post";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {ErrorMessageWrapper} from "../../../utils/validators/validators";
 import * as Yup from "yup";
+import {PostType} from "../../../types/types";
 
 
-const MyPosts = React.memo(props => {
-
-
-    let postsElements = props.posts.map((post) => <Post key={post.id} message={post.message}
-                                                        likesCount={post.likesCount}/>).reverse();
-
-    // let newPostElement = createRef();
-    //
+// let newPostElement = createRef();
+//
     // let onAddPost = () => {
     //     props.addPost();
     //     //Фунция из BLL(redux)
@@ -81,6 +76,23 @@ const MyPosts = React.memo(props => {
 //         </div>
 //     </div>)
 // })
+
+export type MapMyPostsPropsType = {
+    posts: Array<PostType>
+}
+
+export type DispatchMyPostsPropsType = {
+    addPost: (newPostText: string) => void
+}
+
+const MyPosts: React.FC<MapMyPostsPropsType & DispatchMyPostsPropsType> = props => {
+
+    // тут reverse - для теста
+    let postsElement =
+        [...props.posts]
+            .reverse()
+            .map(p => <Post value={p.message} likesCount={p.likesCount} key={p.id}/>)
+
     return (
         <div className={style.postsBlock}>
 
@@ -93,15 +105,19 @@ const MyPosts = React.memo(props => {
             />
 
             <div className={style.posts}>
-                {postsElements}
+                {postsElement}
             </div>
 
         </div>
     )
-})
+}
 
 
-const AddNewPostForm = (props) => {
+type AddNewPostFormPropsType = {
+    addPost: (newPostText: string) => void
+}
+
+const AddNewPostForm: React.FC<AddNewPostFormPropsType> = (props) => {
 
     const validationSchema = Yup.object().shape({
 
@@ -111,8 +127,8 @@ const AddNewPostForm = (props) => {
             .required('Required !')
     })
 
-    let addNewMessage = (values) => {
-        props.addPost(values);
+    const OnAddPost = (values: string) => {
+        props.addPost(values)
     }
 
     return (
@@ -122,7 +138,7 @@ const AddNewPostForm = (props) => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {resetForm}) => {
-                addNewMessage(values.newPostText)
+                OnAddPost(values.newPostText)
                 resetForm()
             }}
         >

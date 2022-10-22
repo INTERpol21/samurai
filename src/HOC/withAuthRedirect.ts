@@ -1,7 +1,7 @@
-import React from "react";
-import {Navigate} from "react-router-dom";
-import {connect} from "react-redux";
-import {AppStateGlobalType} from "../redux/redux-store";
+import React from 'react'
+import {Navigate} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {AppStateGlobalType} from '../redux/redux-store'
 
 
 let mapStateToPropsForRedirect = (state: AppStateGlobalType) => {
@@ -25,7 +25,6 @@ export function withAuthRedirect<WCP>(
         let {isAuth, ...restProps} = props
 
         if (!isAuth) {
-
             return <Navigate to = {'/login'}
             />
         }

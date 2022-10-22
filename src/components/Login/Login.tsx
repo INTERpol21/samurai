@@ -1,22 +1,35 @@
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/Reducer/AuthReducer";
 import {ErrorMessageWrapper, validateEmailField} from "../../utils/validators/validators";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Navigate} from "react-router-dom";
 import * as Yup from "yup";
 import style from "./Login.module.css"
+import {AppStateGlobalType} from "../../redux/redux-store";
+import React from "react";
 
-const LoginPage = (props) => {
 
-    const validationSchema = Yup.object().shape({
+const validationSchema = Yup.object().shape({
 
-        password: Yup.string()
-            .min(2, "Must be longer than 2 characters")
-            .max(15, "Must be shorter than 15 characters")
-            .required("Required 2")
-    });
+    password: Yup.string()
+        .min(2, "Must be longer than 2 characters")
+        .max(15, "Must be shorter than 15 characters")
+        .required("Required 2")
+});
 
-    if (props.isAuth) {
+
+export const LoginPage: React.FC = () => {
+
+    const captchaUrl = useSelector(
+        (state: AppStateGlobalType) => state.auth.captchaUrl)
+
+    const isAuth = useSelector(
+        (state: AppStateGlobalType) => state.auth.isAuth)
+
+    const dispatch = useDispatch()
+
+
+    if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
 
@@ -41,12 +54,12 @@ const LoginPage = (props) => {
 
                     //debugger
 
-                    props.login(
+
+                    dispatch(login(
                         values,
                         setStatus,
                         setFieldValue,
-                        setSubmitting);
-
+                        setSubmitting))
                 }}
             >
                 {(propsF) => {
@@ -72,11 +85,11 @@ const LoginPage = (props) => {
                                         ..{status}
                                     </div>}
 
-                                {status && props.captchaUrl &&
+                                {status && captchaUrl &&
                                     <div>
 
                                         <div>
-                                            <img src={props.captchaUrl} alt={status}/>
+                                            <img src={captchaUrl} alt={status}/>
                                         </div>
 
                                         <div>
@@ -135,13 +148,3 @@ const LoginPage = (props) => {
     )
 }
 
-
-const mapStateToProps = (state) => ({
-        isAuth: state.auth.isAuth,
-        captchaUrl: state.auth.captchaUrl
-    }
-);
-
-const LoginPageConnect = connect(mapStateToProps, {login})(LoginPage);
-
-export default LoginPageConnect;
