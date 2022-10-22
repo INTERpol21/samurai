@@ -1,7 +1,7 @@
 import {actions} from "../../../redux/Reducer/ProfileReducer";
 import MyPosts, {DispatchMyPostsPropsType, MapMyPostsPropsType} from "./MyPosts";
 import {connect} from "react-redux";
-import {AppStateGlobalType} from "../../../redux/redux-store";
+import {RootState} from "../../../redux/redux-store";
 
 
 // const MyPostsContainer = () => {
@@ -59,7 +59,7 @@ import {AppStateGlobalType} from "../../../redux/redux-store";
 // }
 
 
-let mapStateToProps = (state: AppStateGlobalType) => {
+let mapStateToProps = (state: RootState) => {
     return {
         posts: state.profilePage.posts
     }
@@ -67,7 +67,7 @@ let mapStateToProps = (state: AppStateGlobalType) => {
 
 
 const MyPostsContainer = connect<MapMyPostsPropsType,
-    DispatchMyPostsPropsType, {}, AppStateGlobalType>(mapStateToProps,
+    DispatchMyPostsPropsType, {}, RootState>(mapStateToProps,
     {
         addPost: actions.addPostActionCreator
     })(MyPosts)

@@ -1,5 +1,5 @@
 //store от redux
-import {Action, applyMiddleware, combineReducers, createStore, ThunkAction} from "@reduxjs/toolkit";
+import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
 import dialogsReducer from "./Reducer/DialogsReducer";
 import profileReducer from "./Reducer/ProfileReducer";
 import sidBarReducer from "./Reducer/SidBarReducer";
@@ -12,44 +12,54 @@ import chatReducer from "./Reducer/ChatReducer";
 // Если требуются вложенные редукторы, придется вызывать combineReducers() самостоятельно.
 
 
-let rootReducers = combineReducers({
+// let rootReducers = combineReducers({
+//     profilePage: profileReducer,
+//     dialogsPage: dialogsReducer,
+//     sidebar: sidBarReducer,
+//     usersPage: usersReducer,
+//     auth: authReducer,
+//     app: appReducer,
+//     chat: chatReducer
+// })
 
-    // тут ключи типо profilePage - это как бы обьекты
-    // в которых лежат значения - тоест наши стейты - что тоже объекты
 
-    profilePage: profileReducer,
-
-    dialogsPage: dialogsReducer,
-
-    sidebar: sidBarReducer,
-
-    usersPage: usersReducer,
-
-    auth: authReducer,
-
-    app: appReducer,
-
-    chat: chatReducer
-
+export const store = configureStore({
+    reducer: {
+        // @ts-ignore
+        profilePage: profileReducer,
+        // @ts-ignore
+        dialogsPage: dialogsReducer,
+        sidebar: sidBarReducer,
+        // @ts-ignore
+        usersPage: usersReducer,
+        // @ts-ignore
+        auth: authReducer,
+        app: appReducer,
+        // @ts-ignore
+        chat: chatReducer
+    }
 })
 
-
-type RootReducersType = typeof rootReducers;
-
-export type AppStateGlobalType = ReturnType<RootReducersType>;
+export type RootState = ReturnType<typeof store.getState>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
 
 
-export type BaseThunkType<ActionTypes extends Action,
-    ReturnType = Promise<void>> = ThunkAction<ReturnType,
-    AppStateGlobalType, unknown, ActionTypes>
+// type RootReducersType = typeof rootReducers;
+//
+// export type AppStateGlobalType = ReturnType<RootReducersType>;
+//
+//
+// export type BaseThunkType<ActionTypes extends Action,
+//     ReturnType = Promise<void>> = ThunkAction<ReturnType,
+//     AppStateGlobalType, unknown, ActionTypes>
 
 export type InferActionsTypes<T> = T extends {
     [key: string]: (...args: any[]) => infer U
 } ? U : never;
 
-
-let store = createStore(rootReducers, applyMiddleware())
-
+//
+// let store = createStore(rootReducers, applyMiddleware(thunkMiddleWare))
+//
 // @ts-ignore
 window.store = store
 

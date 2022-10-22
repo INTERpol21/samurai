@@ -1,6 +1,6 @@
 import {authAPI} from "../../api/AuthAPI";
 import {securityAPI} from "../../api/SecurityAPI";
-import {BaseThunkType, InferActionsTypes} from "../redux-store";
+import {AppThunk, InferActionsTypes} from "../redux-store";
 
 import {ResultCodeEnum, ResultCodeForCaptchaEnum} from "../../api/API";
 
@@ -21,7 +21,6 @@ type InitialStateType = typeof initialState
 
 type ActionsType = InferActionsTypes<typeof actions>
 
-type ThunkType = BaseThunkType<ActionsType>
 
 const authReducer = (
     state: InitialStateType = initialState,
@@ -92,7 +91,7 @@ const actions = {
 
 
 // Ниже санки
-export const getAuthUserData = (): ThunkType => async (dispatch) => {
+export const getAuthUserData = (): AppThunk => async (dispatch) => {
 
     try {
 
@@ -112,7 +111,7 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
 }
 
 
-export const logout = (): ThunkType => async (dispatch) => {
+export const logout = (): AppThunk => async (dispatch) => {
 
     let response = await authAPI.logout();
 
@@ -128,7 +127,7 @@ export type ValueObjLoginType = {
 }
 
 export const login = (values: ValueObjLoginType, setStatus: any, setFieldValue: any,
-                      setSubmitting: any): ThunkType => async (dispatch) => {
+                      setSubmitting: any): AppThunk => async (dispatch) => {
 
     let response = await authAPI.login(values);
 
@@ -164,7 +163,7 @@ export const login = (values: ValueObjLoginType, setStatus: any, setFieldValue: 
 }
 
 
-export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
+export const getCaptchaUrl = (): AppThunk => async (dispatch) => {
 
     const response = await securityAPI.getCaptchaAPI();
 

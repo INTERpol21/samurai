@@ -1,7 +1,7 @@
 import {createSelector} from '@reduxjs/toolkit'
-import {AppStateGlobalType} from "../redux-store";
+import {RootState} from "../redux-store";
 
-const getUsersSelector = (state: AppStateGlobalType) => {
+const getUsersSelector = (state: RootState) => {
     return state.usersPage.users
 }
 
@@ -10,26 +10,26 @@ export const getUsersSuperSelector = createSelector(getUsersSelector,
         return users.filter((unit) => unit)
     })
 
-export const getPageSize = (state: AppStateGlobalType) => {
+export const getPageSize = (state: RootState) => {
     return state.usersPage.pageSize
 }
 
-export const getTotalUsersCount = (state: AppStateGlobalType) => {
+export const getTotalUsersCount = (state: RootState) => {
     return state.usersPage.totalUsersCount
 }
 
-export const getCurrentPage = (state: AppStateGlobalType) => {
+export const getCurrentPage = (state: RootState) => {
     return state.usersPage.currentPage
 }
 
-export const getIsFetching = (state: AppStateGlobalType) => {
+export const getIsFetching = (state: RootState) => {
     return state.usersPage.isFetching
 }
 
-export const getFollowingInProgress = (state: AppStateGlobalType) => {
+export const getFollowingInProgress = (state: RootState) => {
     return state.usersPage.followingInProgress
 }
 
-export const getUsersFilter = (state: AppStateGlobalType) => {
+export const getUsersFilter = (state: RootState) => {
     return state.usersPage.filter
 }

@@ -13,6 +13,8 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 import {FilterUsersReducerType, follow, requestUsers, unfollow} from "../../redux/Reducer/UsersReducer";
+import {ThunkDispatch} from "redux-thunk";
+
 
 export const Users: React.FC = () => {
 
@@ -23,7 +25,7 @@ export const Users: React.FC = () => {
     const filter = useSelector(getUsersFilter)
     const followingInProgress = useSelector(getFollowingInProgress)
 
-    const dispatch = useDispatch()
+    const dispatch: ThunkDispatch<any, any, any> = useDispatch()
 
     const [searchParams, setSearchParams] = useSearchParams()
 

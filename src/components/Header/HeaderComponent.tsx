@@ -26,7 +26,7 @@ export const HeaderComponent: React.FC = () => {
 
     const isAuth = useSelector(selectIsAuth)
     const login = useSelector(selectCurrentUserLogin)
-    const dispatch = useDispatch()
+    const dispatch: any = useDispatch()
 
     const logoutCallback = () => {
         dispatch(logout())

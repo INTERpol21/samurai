@@ -5,8 +5,9 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Navigate} from "react-router-dom";
 import * as Yup from "yup";
 import style from "./Login.module.css"
-import {AppStateGlobalType} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 import React from "react";
+import {ThunkDispatch} from "redux-thunk";
 
 
 const validationSchema = Yup.object().shape({
@@ -21,12 +22,12 @@ const validationSchema = Yup.object().shape({
 export const LoginPage: React.FC = () => {
 
     const captchaUrl = useSelector(
-        (state: AppStateGlobalType) => state.auth.captchaUrl)
+        (state: RootState) => state.auth.captchaUrl)
 
     const isAuth = useSelector(
-        (state: AppStateGlobalType) => state.auth.isAuth)
+        (state: RootState) => state.auth.isAuth)
 
-    const dispatch = useDispatch()
+    const dispatch: ThunkDispatch<any, any, any> = useDispatch()
 
 
     if (isAuth) {

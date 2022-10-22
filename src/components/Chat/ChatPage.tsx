@@ -3,10 +3,11 @@ import {sendMessage, startMessagesListening, stopMessagesListening} from "../../
 import {outputDateSeconds} from "../../utils/object-helpers";
 import {TextAreaOrInputOnChangeType} from "../../types/types";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateGlobalType} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 import {ChatMessagesApiType} from "../../api/ChatAPI";
 import {selectIsAuth} from "../../redux/Reducer/AuthSelectors";
 import {Spin} from "antd";
+import {ThunkDispatch} from "redux-thunk";
 
 const ChatPage: React.FC = () => {
 
@@ -29,9 +30,9 @@ const ChatPage: React.FC = () => {
 
 const Chat: React.FC = () => {
 
-    const dispatch = useDispatch()
+    const dispatch: ThunkDispatch<any, any, any> = useDispatch()
 
-    const status = useSelector((state: AppStateGlobalType) => state.chat.status)
+    const status = useSelector((state: RootState) => state.chat.status)
 
 
     useEffect(() => {
@@ -70,7 +71,7 @@ const Messages: React.FC = () => {
 
     console.log('>>>Messages')
 
-    const messages = useSelector((state: AppStateGlobalType) => state.chat.messages)
+    const messages = useSelector((state: RootState) => state.chat.messages)
 
     const messagesAnchorRef = useRef<HTMLDivElement>(null)
 
@@ -152,9 +153,9 @@ const AddMessageForm: React.FC<{ isAuth: boolean }> = ({isAuth}) => {
 
     const [message, setMessage] = useState('')
 
-    const status = useSelector((state: AppStateGlobalType) => state.chat.status)
+    const status = useSelector((state: RootState) => state.chat.status)
 
-    const dispatch = useDispatch()
+    const dispatch: ThunkDispatch<any, any, any> = useDispatch()
 
 
     //region Description

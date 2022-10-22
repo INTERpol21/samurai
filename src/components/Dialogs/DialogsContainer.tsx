@@ -3,7 +3,7 @@ import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
-import {AppStateGlobalType} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 import React from "react";
 
 
@@ -87,7 +87,7 @@ import React from "react";
 // )(Dialogs);
 
 
-let mapStateToProps = (state: AppStateGlobalType) => {
+let mapStateToProps = (state: RootState) => {
     return {
         dialogsPage: state.dialogsPage
     }

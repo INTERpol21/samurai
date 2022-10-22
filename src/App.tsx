@@ -1,6 +1,6 @@
 import {initializeApp} from "./redux/Reducer/AppReducer";
 import {connect} from "react-redux";
-import {AppStateGlobalType} from "./redux/redux-store";
+import {RootState} from "./redux/redux-store";
 import React, {Suspense} from "react";
 import {Breadcrumb, Layout, Menu, MenuProps} from "antd";
 import NotFound from "./components/NotFound/NotFound";
@@ -177,7 +177,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
     }
 }
 
-let mapStateToProps = (state: AppStateGlobalType) => ({
+let mapStateToProps = (state: RootState) => ({
     initialized: state.app.initialized
 })
 

@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import 'antd/dist/antd.css'
-import store from './redux/redux-store'
 import App from './App'
 import {Provider} from 'react-redux'
 import {HashRouter} from 'react-router-dom'
+import store from "./redux/redux-store";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement)

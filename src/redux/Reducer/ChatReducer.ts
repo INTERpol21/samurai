@@ -1,7 +1,7 @@
 import {uniqueIdGetTimeInStringPlusIndex} from "../../utils/object-helpers";
 import {chatAPI, ChatMessagesApiType, MassagesReceivedSubscriberType, StatusTypeChatApi} from "../../api/ChatAPI";
 import {Dispatch} from "redux";
-import {BaseThunkType, InferActionsTypes} from "../redux-store";
+import {AppThunk, InferActionsTypes} from "../redux-store";
 
 
 type ChatMessagesType = ChatMessagesApiType & {
@@ -19,7 +19,7 @@ type InitialStateType = typeof initialState
 
 type ActionsType = InferActionsTypes<typeof actions>
 
-type ThunkType = BaseThunkType<ActionsType>
+
 
 
 const chatReducer = (
@@ -111,7 +111,7 @@ const statusChangedHandlerCreator = (dispatch: Dispatch) => {
 }
 
 
-export const startMessagesListening = (): ThunkType => async (dispatch) => {
+export const startMessagesListening = (): AppThunk => async (dispatch) => {
 
     chatAPI.subscribe('messages-received', newMessagesHandlerCreator(dispatch))
     chatAPI.subscribe('status-changed', statusChangedHandlerCreator(dispatch))
@@ -121,7 +121,7 @@ export const startMessagesListening = (): ThunkType => async (dispatch) => {
 }
 
 
-export const stopMessagesListening = (): ThunkType => async () => {
+export const stopMessagesListening = (): AppThunk => async () => {
 
     // chatAPI.unsubscribe('messages-received', newMessagesHandlerCreator(dispatch))
     // chatAPI.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch))
@@ -129,7 +129,7 @@ export const stopMessagesListening = (): ThunkType => async () => {
     chatAPI.stop()
 }
 
-export const sendMessage = (message: string): ThunkType => async () => {
+export const sendMessage = (message: string): AppThunk => async () => {
 
     chatAPI.sendMessageApi(message)
 }

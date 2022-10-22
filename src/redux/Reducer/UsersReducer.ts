@@ -1,7 +1,7 @@
 import {updateObjectInArray} from "../../utils/object-helpers";
 import {usersAPI} from "../../api/UsersAPI";
 import {UserType} from "../../types/types";
-import {BaseThunkType, InferActionsTypes} from "../redux-store";
+import {AppThunk, InferActionsTypes} from "../redux-store";
 import {APIResponseType} from "../../api/API";
 import {Dispatch} from "redux";
 
@@ -21,7 +21,6 @@ export type FilterUsersReducerType = typeof initialState.filter
 
 type ActionsType = InferActionsTypes<typeof actions>
 
-type ThunkType = BaseThunkType<ActionsType>
 
 
 const usersReducer = (state = initialState, action: ActionsType): InitialStateUsersReducerType => {
@@ -209,7 +208,7 @@ export const actions = {
 //////////////САНКИ
 //создаем функцию thunk которую можно отправить с помошью dispatch и отправляет как CALLBACK!!!!
 export const requestUsers = (
-    page: number, pageSize: number, filter: FilterUsersReducerType): ThunkType => {
+    page: number, pageSize: number, filter: FilterUsersReducerType): AppThunk => {
 
     return async (
         dispatch) => {
@@ -257,7 +256,7 @@ let _followUnfollowFlow = async (
 }
 
 
-export const follow = (userId: number): ThunkType => {
+export const follow = (userId: number): AppThunk => {
 
     return async (dispatch) => {
         await _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.followSuccess)
@@ -266,7 +265,7 @@ export const follow = (userId: number): ThunkType => {
 }
 
 
-export const unfollow = (userId: number): ThunkType => {
+export const unfollow = (userId: number): AppThunk => {
 
     return async (dispatch) => {
 

@@ -73,7 +73,7 @@ import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {getStatus, getUserProfile, savePhoto, saveProfile, updateStatus} from "../../redux/Reducer/ProfileReducer";
 import {compose} from "redux";
 import {ProfileType} from "../../types/types";
-import {AppStateGlobalType} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -195,7 +195,7 @@ function withRouter(Component: any) {
 }
 
 
-let mapStateToProps = (state: AppStateGlobalType) => {
+let mapStateToProps = (state: RootState) => {
 
 
     return {
